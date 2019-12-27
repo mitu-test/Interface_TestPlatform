@@ -2,7 +2,7 @@ Interface_TestPlatform
 -------
 项目简介：
 -------
-Mxonline是基于python3.6+Django 1.11.6+Xadmin开发的在线教育平台,支持用户登录、注册、密码找回、收藏、评论，全局搜索以及个人中心的展示；机构列表的排序、分页、筛选以及机构详情页面的展示；讲师列表的人气排序、分页以及讲师详情页面的展示；课程列表的排序、分页、筛选，热门课程推荐，以及课程详情页面的展示等功能；
+Interface_TestPlatform是基于Python3.6+Django2.0+requests+ddt+unitest+HTMLTestRunner等开发的接口测试平台,支持用户登录、注册、密码找回；支持项目管理、模块管理、用例管理、任务管理等页面的增删改查功能，支持单个测试用例和批量测试用例的执行，并自动生成Html测试报告。
 
 使用方法：
 -------
@@ -23,7 +23,7 @@ pip install -r requirements.txt
     # 'ENGINE': 'django.db.backends.sqlite3',
     # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     'ENGINE':'django.db.backends.mysql',     # 数据库类型，mysql
-    'NAME':'mxonline',            #  database名
+    'NAME':'interface_testplatform',            #  database名
     'USER':'root',               # 登录用户
     'PASSWORD':'123456',        #  登录用户名
     'HOST':'127.0.0.1',        # 数据库地址
@@ -51,6 +51,6 @@ python manage.py createsuperuser
 ```
 python manage.py runserver 127.0.0.1:8000
 ```
-9.访问127.0.0.1:8000进入教育平台主页
+9.访问127.0.0.1:8000进入接口测试平台主页面
 -------
-![](https://github.com/PyGuojun/Mxonline/blob/master/image/my_logo.png)
+

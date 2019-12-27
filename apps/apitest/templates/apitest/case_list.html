@@ -1,0 +1,937 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}用例管理{% endblock %}
+{% block css %}{% endblock %}
+{% block content %}
+    <div class="content" xmlns="http://www.w3.org/1999/html">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <i class="fa fa-home"></i>&nbsp;首页&nbsp;<i class="fa fa-angle-right"></i>&nbsp;用例管理&nbsp;
+
+                    </div>
+
+                    <div class="card-body">
+                        <button id="test" type="button" class="btn btn-rounded btn-info btn-secondary btn-sm"
+                                data-toggle="modal" data-target="#modal-1" data-remote="/apitest/case-add/">
+                            <i class="fa fa-plus"></i></i>&nbsp;新建用例
+                        </button>
+                        <!--新建用例模态框-->
+                        <div class="modal fade" id="modal-1" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="width: 90%">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">新建用例</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body p-4" id="add_case">
+                                        <ul class="nav nav-tabs" role="tablist" style="font-weight:bold;">
+                                            <li class="nav-item" style="padding-left: 60px">
+                                                <a class="nav-link active" data-toggle="tab" href="#home" role="tab"
+                                                   aria-controls="home">基本信息</a>
+                                            </li>
+
+                                            <li class="nav-item" style="padding-left: 80px">
+                                                <a class="nav-link" data-toggle="tab" href="#profile" role="tab"
+                                                   aria-controls="profile">请求与断言</a>
+                                            </li>
+
+                                        </ul>
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="home" role="tabpanel">
+                                                <div class="form-group">
+                                                    <label class="form-control-label">用例名称</label>
+                                                    <input id="add_case_name" type="text"
+                                                           class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">项目名称</label>
+                                                    <select id="add_case_project" class="form-control"
+                                                            onchange="get_module_name(this)">
+                                                        {% for project_name in projects_list %}
+                                                            <option>{{ project_name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">模块名称</label>
+                                                    <select id="add_case_module" class="form-control">
+                                                        {% for module_name in module_list %}
+                                                            <option>{{ module_name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-control-label">用例描述</label>
+                                                    <textarea id="add_case_describe"
+                                                              class="form-control"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">创建者</label>
+                                                    <input id="add_case_maker" type="text"
+                                                           class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="single-select">状态</label>
+                                                    <select id="add_case_status" class="form-control">
+                                                        <option>开启</option>
+                                                        <option>关闭</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="tab-pane" id="profile" role="tabpanel">
+
+
+                                                <div class="form-group">
+                                                    <label class="form-control-label">请求方式</label>
+                                                    <select id="add_case_method" class="form-control">
+                                                        <option>GET</option>
+                                                        <option>POST</option>
+                                                        <option>PUT</option>
+                                                        <option>DELETE</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">请求URL</label>
+                                                    <input id="add_case_api" type="text"
+                                                           class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">请求头</label>
+                                                    <textarea id="add_case_header"
+                                                              class="form-control">{}</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="single-select">参数类型</label>
+                                                    <select id="add_case_param_type" class="form-control">
+                                                        <option>form-data</option>
+                                                        <option>json</option>
+                                                        <option>param</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="single-select">参数体</label>
+                                                    <textarea id="add_case_param_body"
+                                                              class="form-control">{}</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="single-select">断言类型</label>
+                                                    <select id="add_case_assert_type" class="form-control">
+                                                        <option>包含</option>
+                                                        <option>匹配</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">断言体</label>
+
+                                                    <textarea id="add_case_assert_body"
+                                                              class="form-control"></textarea>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer border-0">
+                                        <button type="button"
+                                                class="btn btn-link btn-rounded btn-secondary"
+                                                data-dismiss="modal">
+                                            取消
+                                        </button>
+                                        <button type="button" class="btn btn-rounded btn-secondary"
+                                                onclick="case_add(this)">提交
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-rounded btn-danger btn-sm" data-toggle="modal"
+                                data-target="#modal-4">
+                            <i class="fa fa-ban"></i>&nbsp;批量删除
+                        </button>
+                         <!--批量删除模态框-->
+                        <div class="modal fade" id="modal-4" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">提示</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h6>确定删除勾选的所有用例吗?</h6>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button"
+                                                class="btn btn-link btn-rounded btn-secondary"
+                                                data-dismiss="modal">
+                                            取消
+                                        </button>
+                                        <button type="submit"
+                                                class="btn btn-rounded btn-secondary" onclick="batch_delete(this)">确定
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="float: right;top:-8px">
+                            <form class="navbar-form navbar-right" action="{% url 'apitest:case_search' %}"
+                                  method="get">
+                                <div class="input-group">
+                                    <input type="text" id="input-group-2" name="input2" class="form-control"
+                                           placeholder="输入用例名/创建者" style="border-radius:20px">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-secondary" style="border-radius:20px"><i
+                                                class="fa fa-search"></i> Search</button>
+                                </span>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover text-center">
+                                <thead>
+                                <tr>
+                                    <th width="80"><input style="position:relative;top:2px;" type="checkbox" id="checkAll" name="checkAll"/>&nbsp;全选</th>
+                                    <th>id</th>
+                                    <th>用例名称</th>
+                                    <th>项目名称</th>
+                                    <th>模块名称</th>
+                                    <th>用例描述</th>
+                                    <th>创建者</th>
+                                    <th>状态</th>
+                                    <th>更新时间</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for case in case_list.object_list %}
+                                    <tr>
+                                        <td><input type="checkbox" value={{ case.id }} name="checkItem" /></td>
+                                        <td id="case_id" width="10">{{ case.id }}</td>
+                                        <td id="case_name" class="text-nowrap" data-toggle="modal" data-target="#modal-2" onclick="edititem1(this)" style="color: #1e94f3">{{ case.name }}</td>
+                                        <td id="case_project">{{ case.module.project }}</td>
+                                        <td id="case_module">{{ case.module }}</td>
+                                        <td id="case_describe">{{ case.describe }}</td>
+                                        <td id="case_maker">{{ case.maker }}</td>
+                                        <td id="case_status">{% if case.status %}开启{% else %}关闭{% endif %}</td>
+                                        <td>{{ case.create_time }}</td>
+                                        <td class="text-center" width="220">
+                                            <button type="button" class="btn btn-rounded btn-primary btn-sm" onclick="CaseRun('{{case.id}}')">
+                                                <i class="fa fa-play"></i>&nbsp;运行
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-rounded btn-success btn-secondary btn-sm"
+                                                    data-toggle="modal" data-target="#modal-2" onclick="edititem(this)">
+                                                <i class="fa fa-pencil-alt"></i>&nbsp;编辑
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-rounded btn-warning btn-sm"
+                                                    data-toggle="modal" data-target="#modal-3" onclick="delitem(this)">
+                                                <i class="fa fa-trash"></i>&nbsp;删除
+                                            </button>
+                                        </td>
+                                        <!--编辑用例模态框-->
+                                        <div class="modal fade" id="modal-2" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content" style="width: 90%">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">编辑用例</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="modal-body p-4" id="add_case">
+                                                        <ul class="nav nav-tabs" role="tablist"
+                                                            style="font-weight:bold;">
+                                                            <li class="nav-item" style="padding-left: 60px">
+                                                                <a class="nav-link active" data-toggle="tab"
+                                                                   href="#home1" role="tab"
+                                                                   aria-controls="home1">基本信息</a>
+                                                            </li>
+
+                                                            <li class="nav-item" style="padding-left: 80px">
+                                                                <a class="nav-link" data-toggle="tab" href="#profile1"
+                                                                   role="tab"
+                                                                   aria-controls="profile1">请求与断言</a>
+                                                            </li>
+
+                                                        </ul>
+
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane active" id="home1" role="tabpanel">
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">用例编号</label>
+                                                                    <input id="edit_case_id" type="text"
+                                                                           class="form-control" readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">用例名称</label>
+                                                                    <input id="edit_case_name" type="text"
+                                                                           class="form-control">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">项目名称</label>
+                                                                    <select id="edit_case_project" class="form-control"
+                                                                            onchange="get_module_name1(this)">
+                                                                        {% for project_name in projects_list %}
+                                                                            <option>{{ project_name }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">模块名称</label>
+                                                                    <select id="edit_case_module" class="form-control">
+
+                                                                    </select>
+
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">用例描述</label>
+                                                                    <textarea id="edit_case_describe"
+                                                                              class="form-control"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">创建者</label>
+                                                                    <input id="edit_case_maker" type="text"
+                                                                           class="form-control">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="single-select">状态</label>
+                                                                    <select id="edit_case_status" class="form-control">
+                                                                        <option>开启</option>
+                                                                        <option>关闭</option>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="tab-pane" id="profile1" role="tabpanel">
+
+
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">请求方式</label>
+                                                                    <select id="edit_case_method" class="form-control">
+                                                                        <option>GET</option>
+                                                                        <option>POST</option>
+                                                                        <option>PUT</option>
+                                                                        <option>DELETE</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">请求URL</label>
+                                                                    <input id="edit_case_api" type="text"
+                                                                           class="form-control">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">请求头</label>
+                                                                    <textarea id="edit_case_header"
+                                                                              class="form-control"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="single-select">参数类型</label>
+                                                                    <select id="edit_case_param_type"
+                                                                            class="form-control">
+                                                                        <option>form-data</option>
+                                                                        <option>json</option>
+                                                                        <option>param</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="single-select">参数体</label>
+                                                                    <textarea id="edit_case_param_body"
+                                                                              class="form-control"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="single-select">断言类型</label>
+                                                                    <select id="edit_case_assert_type"
+                                                                            class="form-control">
+                                                                        <option>包含</option>
+                                                                        <option>匹配</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-control-label">断言体</label>
+
+                                                                    <textarea id="edit_case_assert_body"
+                                                                              class="form-control"></textarea>
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="modal-footer border-0">
+                                                        <button type="button"
+                                                                class="btn btn-link btn-rounded btn-secondary"
+                                                                data-dismiss="modal">
+                                                            取消
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-rounded btn-secondary"
+                                                                onclick="case_edit(this)">提交
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--删除用例模态框-->
+                                        <div class="modal fade" id="modal-3" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog modal-sm" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">提示</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h6>确定删除用例《<span id="del_case_id"></span>》吗?</h6>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                                class="btn btn-link btn-rounded btn-secondary"
+                                                                data-dismiss="modal">
+                                                            取消
+                                                        </button>
+
+                                                        <button type="button"
+                                                                class="btn btn-rounded btn-secondary"
+                                                                onclick="case_delete(this)">
+                                                            确定
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="#" style="float: right">
+                            <!-- Pagination分页 -->
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-template d-flex justify-content-center">
+                                    {% if case_list.has_previous %}
+                                        <li class="page-item">
+                                            <a href="?{{ case_list.previous_page_number.querystring }}"
+                                               class="page-link" aria-label="Previous">
+                                                <span aria-hidden="true">上一页</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% for page in case_list.pages %}
+                                        {% if page %}
+                                            {% ifequal page case_list.number %}
+                                                <li class="page-item active"><a
+                                                        href="?{{ page.querystring }}" class="page-link">{{ page }}</a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item"><a href="?{{ page.querystring }}"
+                                                                         class="page-link">{{ page }}</a>
+                                                </li>
+                                            {% endifequal %}
+                                        {% else %}
+                                            <li class="page-item"><a href="" class="page-link">...</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if case_list.has_next %}
+                                        <li class="page-item">
+                                            <a href="?{{ case_list.next_page_number.querystring }}"
+                                               class="page-link" aria-label="Next">
+                                                <span aria-hidden="true">下一页</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+
+
+                         <select id="page666" onchange="window.location=this.value">
+                            {% for num in nums_list %}
+                                {% ifequal num page_num %}
+                                    <option value="?nums={{ num }}" selected="selected">{{ num }}</option>
+                                {% else %}
+                                     <option value="?nums={{ num }}">{{ num }}</option>
+                                {% endifequal %}
+
+                            {% endfor %}
+                        </select>
+                        <label>条/页</label>&nbsp;
+                        <label>显示 {{ start }} 到 {{ end }} 条，共 {{ counts }} 条</label>&nbsp;
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+{% endblock %}
+{% block custom_js %}
+    <script>
+        $(function () {
+            $('#modal-1').modal('hide')
+            $('#modal-2').modal('hide')
+            $('#modal-3').modal('hide')
+            $('#modal-4').modal('hide')
+        });
+    </script>
+     <script>
+    $(document).ready(function(){
+
+        $(".modal-dialog").draggable();//为模态对话框添加拖拽
+
+
+    })
+</script>
+    <script>
+        //模态框框关闭后刷新页面
+        $(function () {
+            $('#modal-1').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+            $('#modal-2').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+            $('#modal-3').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+            $('#modal-4').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+        });
+    </script>
+    <script>
+        //利用Ajax发送请求到后端,新建用例
+        function case_add(obj) {
+            var sr = $(obj).parent().prev();
+            var case_name = sr.find("input#add_case_name").val();
+            var case_describe = sr.find("textarea#add_case_describe").val();
+            var case_module = sr.find("select#add_case_module").val();
+            var case_api = sr.find("input#add_case_api").val();
+            var case_status = sr.find("select#add_case_status").val();
+            var case_method = sr.find("select#add_case_method ").val();
+            var case_maker = sr.find("input#add_case_maker").val();
+            var case_header = sr.find("textarea#add_case_header").val();
+            var case_param_type = sr.find("select#add_case_param_type").val();
+            var case_param_body = sr.find("textarea#add_case_param_body").val();
+            var case_assert_type = sr.find("select#add_case_assert_type").val();
+            var case_assert_body = sr.find("textarea#add_case_assert_body").val();
+
+
+            if (case_name !== '' && case_describe !== '' && case_module !== '' && case_api !== '' && case_status !== '' && case_maker !== '' && case_assert_body !== '') {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "{% url 'apitest:case_add'%}",
+                    data: {
+                        'case_name': case_name,
+                        'case_describe': case_describe,
+                        'case_module': case_module,
+                        'case_api': case_api,
+                        'case_status': case_status,
+                        'case_method': case_method,
+                        'case_maker': case_maker,
+                        'case_header': case_header,
+                        'case_param_type': case_param_type,
+                        'case_param_body': case_param_body,
+                        'case_assert_type': case_assert_type,
+                        'case_assert_body': case_assert_body,
+                    },
+                    async: true,
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success: function (data) {
+                        if (data.status == 'success') {
+                            window.location.href = "{% url 'apitest:case_list' %}";
+                        }
+
+                    },
+                });
+
+            }
+
+
+        }
+    </script>
+
+
+    <script>
+        //传入需要编辑的数据到模态框
+        function edititem(obj) {
+            var tr = $(obj).parent().parent();
+            var case_id = tr.children("td#case_id").text();
+            var case_name = tr.children("td#case_name").text();
+            var case_project = tr.children("td#case_project").text();
+            var case_module = tr.children("td#case_module").text();
+            var case_maker = tr.children("td#case_maker").text();
+            var case_describe = tr.children("td#case_describe").text();
+            var case_status = tr.children("td#case_status").text();
+            $.get("/apitest/get_modules_name/", {"project_name": case_project}, function (resp) {
+                if (resp.status == 10200) {
+                    $("#edit_case_module").empty();
+                    var datalist = resp.data;
+                    for (var i = 0; i < datalist.length; i++) {
+                        if (datalist[i] == case_module) continue;
+                        {
+                            $("#edit_case_module").append('<option>' + datalist[i] + '</option>');
+                        }
+                    }
+                    $('#edit_case_module').append('<option selected>' + case_module + '</option>');
+                } else {
+                    window.alert(resp.message);
+                }
+
+            });
+
+            $('#edit_case_id').val(case_id);
+            $('#edit_case_name').val(case_name);
+            $('#edit_case_project').val(case_project);
+            $('#edit_case_maker').val(case_maker);
+            $('#edit_case_describe').val(case_describe);
+            $('#edit_case_status').val(case_status);
+
+            $.get("/apitest/get_case_message/", {"case_name": case_name}, function (resp) {
+                if (resp.status == 10200) {
+                    var datalist = resp.data;
+                    $('#edit_case_method').val(datalist[0]);
+                    $('#edit_case_api').val(datalist[1]);
+                    $('#edit_case_header').val(datalist[2]);
+                    $('#edit_case_param_type').val(datalist[3]);
+                    $('#edit_case_param_body').val(datalist[4]);
+                    $('#edit_case_assert_type').val(datalist[5]);
+                    $('#edit_case_assert_body').val(datalist[6]);
+
+
+                } else {
+                    window.alert(resp.message)
+                }
+
+            });
+            $('#modal-2').modal('show')
+
+
+        };
+    </script>
+    <script>
+        //传入需要编辑的数据到模态框
+        function edititem1(obj) {
+            var tr = $(obj).parent();
+            var case_id = tr.children("td#case_id").text();
+            var case_name = tr.children("td#case_name").text();
+            var case_project = tr.children("td#case_project").text();
+            var case_module = tr.children("td#case_module").text();
+            var case_maker = tr.children("td#case_maker").text();
+            var case_describe = tr.children("td#case_describe").text();
+            var case_status = tr.children("td#case_status").text();
+            $.get("/apitest/get_modules_name/", {"project_name": case_project}, function (resp) {
+                if (resp.status == 10200) {
+                    $("#edit_case_module").empty();
+                    var datalist = resp.data;
+                    for (var i = 0; i < datalist.length; i++) {
+                        if (datalist[i] == case_module) continue;
+                        {
+                            $("#edit_case_module").append('<option>' + datalist[i] + '</option>');
+                        }
+                    }
+                    $('#edit_case_module').append('<option selected>' + case_module + '</option>');
+                } else {
+                    window.alert(resp.message);
+                }
+
+            });
+
+            $('#edit_case_id').val(case_id);
+            $('#edit_case_name').val(case_name);
+            $('#edit_case_project').val(case_project);
+            $('#edit_case_maker').val(case_maker);
+            $('#edit_case_describe').val(case_describe);
+            $('#edit_case_status').val(case_status);
+
+            $.get("/apitest/get_case_message/", {"case_name": case_name}, function (resp) {
+                if (resp.status == 10200) {
+                    var datalist = resp.data;
+                    $('#edit_case_method').val(datalist[0]);
+                    $('#edit_case_api').val(datalist[1]);
+                    $('#edit_case_header').val(datalist[2]);
+                    $('#edit_case_param_type').val(datalist[3]);
+                    $('#edit_case_param_body').val(datalist[4]);
+                    $('#edit_case_assert_type').val(datalist[5]);
+                    $('#edit_case_assert_body').val(datalist[6]);
+
+
+                } else {
+                    window.alert(resp.message)
+                }
+
+            });
+            $('#modal-2').modal('show')
+
+
+        };
+    </script>
+
+    <script>
+        //前端数据修改后，通过Ajax发送请求到后端
+        function case_edit(obj) {
+            var sr = $(obj).parent().prev();
+            var case_id = sr.find("input#edit_case_id").val();
+            var case_name = sr.find("input#edit_case_name").val();
+            var case_describe = sr.find("textarea#edit_case_describe").val();
+            var case_module = sr.find("select#edit_case_module").val();
+            var case_api = sr.find("input#edit_case_api").val();
+            var case_status = sr.find("select#edit_case_status").val();
+            var case_method = sr.find("select#edit_case_method ").val();
+            var case_maker = sr.find("input#edit_case_maker").val();
+            var case_header = sr.find("textarea#edit_case_header").val();
+            var case_param_type = sr.find("select#edit_case_param_type").val();
+            var case_param_body = sr.find("textarea#edit_case_param_body").val();
+            var case_assert_type = sr.find("select#edit_case_assert_type").val();
+            var case_assert_body = sr.find("textarea#edit_case_assert_body").val();
+
+
+            if (case_name !== '' && case_describe !== '' && case_module !== '' && case_api !== '' && case_status !== '' && case_maker !== '' && case_assert_body !== '') {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "{% url 'apitest:case_edit'%}",
+                    data: {
+                        'case_id': case_id,
+                        'case_name': case_name,
+                        'case_describe': case_describe,
+                        'case_module': case_module,
+                        'case_api': case_api,
+                        'case_status': case_status,
+                        'case_method': case_method,
+                        'case_maker': case_maker,
+                        'case_header': case_header,
+                        'case_param_type': case_param_type,
+                        'case_param_body': case_param_body,
+                        'case_assert_type': case_assert_type,
+                        'case_assert_body': case_assert_body,
+                    },
+                    async: true,
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success: function (data) {
+                        if (data.status == 'success') {
+                            window.location.href = "{% url 'apitest:case_list' %}";
+                        }
+
+                    },
+                });
+
+            }
+
+
+        }
+    </script>
+    <script>
+        //传入删除模态框单个用例的id值
+        function delitem(obj) {
+            var tr = $(obj).parent().parent();
+            var case_name = tr.children("td#case_name").text();
+            $('#del_case_id').text(case_name);
+
+
+        };
+    </script>
+     <script type="text/javascript">
+	//发送方法
+	function CaseRun(tid) {
+        $.post("/apitest/case-run/", {'case_id': tid, csrfmiddlewaretoken: '{{ csrf_token  }}'},
+		function (resp) {
+		    if(resp.status == 10200){
+		        window.alert(resp.message);
+                window.location.href = "/apitest/show-case-report/"+ tid;
+
+
+
+			}
+
+		});
+
+	};
+</script>
+    <script>
+        //利用Ajax发送请求到后端，删除用例
+        function case_delete(obj) {
+            var sr = $(obj).parent().prev();
+            var case_name = sr.find("span#del_case_id").text();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'apitest:case_delete'%}",
+                data: {'case_name': case_name},
+                async: true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    if (data.status == 'success') {
+                        window.location.href = "{% url 'apitest:case_list' %}";
+                    }
+
+                },
+            });
+        }
+    </script>
+    <script>
+        //新建页面根据项目名去获取模块名
+        function get_module_name(obj) {
+            var project_name = $(obj).val();
+            $.get("/apitest/get_modules_name/", {"project_name": project_name}, function (resp) {
+                if (resp.status == 10200) {
+                    $("#add_case_module").empty();
+                    var datalist = resp.data;
+                    for (var i = 0; i < datalist.length; i++) {
+                        $("#add_case_module").append('<option >' + datalist[i] + '</option>');
+                    }
+                } else {
+                    window.alert(resp.message)
+                }
+
+            });
+
+        }
+    </script>
+    <script>
+        function get_module_name1(obj) {
+            //编辑页面根据项目名去获取模块名
+            var project_name = $(obj).val();
+            $.get("/apitest/get_modules_name/", {"project_name": project_name}, function (resp) {
+                if (resp.status == 10200) {
+                    $("#edit_case_module").empty();
+                    var datalist = resp.data;
+                    for (var i = 0; i < datalist.length; i++) {
+                        $("#edit_case_module").append('<option >' + datalist[i] + '</option>');
+                    }
+                } else {
+                    window.alert(resp.message)
+                }
+
+            });
+
+        }
+    </script>
+
+
+
+
+    <script>
+        //实现列表全选功能
+        $(function () {
+            function initTableCheckbox() {
+                var $thr = $('table thead tr');
+                var $checkAllTh = $thr.find('input');
+                /*将全选/反选复选框添加到表头最前，即增加一列*/
+                /*“全选/反选”复选框*/
+                var $checkAll = $thr.find('input');
+                $checkAll.click(function (event) {
+                    /*将所有行的选中状态设成全选框的选中状态*/
+                    $tbr.find('input').prop('checked', $(this).prop('checked'));
+                    /*并调整所有选中行的CSS样式*/
+                    if ($(this).prop('checked')) {
+                        $tbr.find('input').parent().parent().addClass('warning');
+                    } else {
+                        $tbr.find('input').parent().parent().removeClass('warning');
+                    }
+                    /*阻止向上冒泡，以防再次触发点击操作*/
+                    event.stopPropagation();
+                });
+                /*点击全选框所在单元格时也触发全选框的点击操作*/
+                $checkAllTh.click(function () {
+                    $(this).find('input').click();
+                });
+                var $tbr = $('table tbody tr');
+                /*每一行都在最前面插入一个选中复选框的单元格*/
+                /*点击每一行的选中复选框时*/
+                $tbr.find('input').click(function (event) {
+                    /*调整选中行的CSS样式*/
+                    $(this).parent().parent().toggleClass('warning');
+                    /*如果已经被选中行的行数等于表格的数据行数，将全选框设为选中状态，否则设为未选中状态*/
+                    $checkAll.prop('checked', $tbr.find('input:checked').length == $tbr.length ? true : false);
+                    /*阻止向上冒泡，以防再次触发点击操作*/
+                    event.stopPropagation();
+                });
+                /*点击每一行时也触发该行的选中操作*/
+                /*$tbr.click(function () {
+                    $(this).find('input').click();
+                });*/
+            }
+
+            initTableCheckbox();
+        });
+    </script>
+    <script>
+        //利用Ajax发送请求到后端，删除项目
+        function batch_delete(obj) {
+            var ids = [];
+            $("input[type='checkbox'][name='checkItem']:checked").each(function () {
+                ids.push($(this).val());
+            });
+             $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'apitest:case_batch_delete'%}",
+                traditional: true,//添加该行后，ajax就可以传数组
+                data: {'ids': ids},
+                async: true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    if (data.status == 'success') {
+                        window.location.href = "{% url 'apitest:case_list' %}";
+                    }
+
+                },
+            });
+
+        }
+    </script>
+{% endblock %}
+

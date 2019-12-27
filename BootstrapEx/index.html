@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="css/bootstrapEx.css">
+
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script src="http://www.jq22.com/jquery/bootstrap-3.3.4.js"></script>
+    <script type="text/javascript" src="js/bootstrapEx.js"></script>
+</head>
+
+<body>
+   
+   <button id="btn3" class="btn btn-primary" type="button" data-dismiss="modal" aria-hidden="true">Modal嵌入页签页</button>
+
+</body>
+<script>
+    var iframeurl = function () { return "iframetest.html?" + getNowDateInt() };
+    var Modal3;
+   
+    
+
+    $(document).ready(function () {
+      
+       
+        InitModal3();
+        
+
+     
+        $("#btn3").click(function () {
+            Modal3.show();
+        })
+       
+    });
+   
+    function InitModal3() {
+        $(document.body).append('<div id="modal3"></div>');
+        Modal3 = new Modal();
+        Modal3.renderto = "#modal3";
+        Modal3.InitShow = true;
+        Modal3.btns = [{ id: "btn1", text: "保存" }, { id: "closebtn" }]
+        tab1 = new Tab();
+		tab2 = new Tab();
+        Modal3.OnfirstInited = function (thismodal) {
+            tab1.tabs = 
+			[
+			{
+                id: "tabs1", title: "Baidu页面", active: true, isiframe: true, url: iframeurl()
+            }, 
+			{
+                id: "tabs2", title: '其他信息', bodye1: "XXX"
+            },
+			{
+                id: "tabs2", title: '其他信息', bodye2: "XXX"
+            },
+			{
+                id: "tabs2", title: '其他信息', bodye2: "XXX"
+            },
+			{
+                id: "tabs2", title: '其他信息', bodye2: "XXX"
+            }
+			];
+            tab1.renderto = thismodal.body;
+            tab1.Init();
+			 
+        }
+    }
+    
+    
+
+
+</script>

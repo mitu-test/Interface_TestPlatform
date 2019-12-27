@@ -1,0 +1,719 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}任务管理{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="/static/ztree/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+{% endblock %}
+{% block content %}
+    <div class="content" xmlns="http://www.w3.org/1999/html">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <i class="fa fa-home"></i>&nbsp;首页&nbsp;<i class="fa fa-angle-right"></i>&nbsp;任务管理&nbsp;
+
+                    </div>
+
+                    <div class="card-body">
+                        <button id="test" type="button" class="btn btn-rounded btn-info btn-secondary btn-sm"
+                                data-toggle="modal" data-target="#modal-1" data-remote="/apitest/case-add/">
+                            <i class="fa fa-plus"></i></i>&nbsp;新建任务
+                        </button>
+                        <!--新建任务模态框-->
+                        <div class="modal fade" id="modal-1" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="width: 90%">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">新建任务</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body p-4" id="add_case">
+
+                                        <div class="form-group">
+                                            <label class="form-control-label">任务名称</label>
+                                            <input id="add_task_name" type="text"
+                                                   class="form-control">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-control-label">任务描述</label>
+                                            <textarea id="add_task_describe"
+                                                      class="form-control"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-control-label">用例列表</label>
+                                            <ul id="treeDemo" class="ztree"></ul>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="single-select">状态</label>
+                                            <select id="add_task_status" class="form-control">
+                                                <option>未执行</option>
+                                                <option>执行中</option>
+                                                <option>执行完成</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer border-0">
+                                        <button type="button"
+                                                class="btn btn-link btn-rounded btn-secondary"
+                                                data-dismiss="modal">
+                                            取消
+                                        </button>
+                                        <button type="button" class="btn btn-rounded btn-secondary"
+                                                onclick="task_add(this)">提交
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-rounded btn-danger btn-sm" data-toggle="modal"
+                                data-target="#modal-4">
+                            <i class="fa fa-ban"></i>&nbsp;批量删除
+                        </button>
+                         <!--批量删除模态框-->
+                        <div class="modal fade" id="modal-4" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">提示</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h6>确定删除勾选的所有任务吗?</h6>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button"
+                                                class="btn btn-link btn-rounded btn-secondary"
+                                                data-dismiss="modal">
+                                            取消
+                                        </button>
+                                        <button type="submit"
+                                                class="btn btn-rounded btn-secondary" onclick="batch_delete(this)">确定
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="float: right;top:-8px">
+                            <form class="navbar-form navbar-right" action="{% url 'apitest:task_search' %}"
+                                  method="get">
+                                <div class="input-group">
+                                    <input type="text" id="input-group-2" name="task" class="form-control"
+                                           placeholder="输入任务名" style="border-radius:20px">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-secondary" style="border-radius:20px"><i
+                                                class="fa fa-search"></i> Search</button>
+                                </span>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover text-center">
+                                <thead>
+                                <tr>
+                                    <th width="80"><input style="position:relative;top:2px;" type="checkbox" id="checkAll" name="checkAll"/>&nbsp;全选</th>
+                                    <th>id</th>
+                                    <th>任务名称</th>
+                                    <th>任务描述</th>
+                                    <th>状态</th>
+                                    <th>更新时间</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for task in task_list.object_list %}
+                                    <tr>
+                                        <td><input type="checkbox" value={{ task.id }} name="checkItem" /></td>
+                                        <td id="task_id" width="10">{{ task.id }}</td>
+                                        <td id="task_name" class="text-nowrap" data-toggle="modal"
+                                            data-target="#modal-2" onclick="edititem1(this)"
+                                            style="color: #1e94f3">{{ task.name }}</td>
+                                        <td id="task_describe">{{ task.describe }}</td>
+                                        <td id="task_status">{% ifequal task.status "0" %}未执行{% else %}{% ifequal task.status "1" %}执行中{% else %}执行完成{% endifequal %}{% endifequal %}</td>
+                                        <td>{{ task.create_time }}</td>
+                                        <td class="text-center" width="220">
+                                            <button type="button" class="btn btn-rounded btn-primary btn-sm" onclick="TaskRun('{{task.id}}')">
+                                                <i class="fa fa-play"></i>&nbsp;运行
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-rounded btn-success btn-sm"
+                                                    data-toggle="modal" data-target="#modal-2" onclick="edititem(this)">
+                                                <i class="fa fa-pencil-alt"></i>&nbsp;编辑
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-rounded btn-warning btn-sm"
+                                                    data-toggle="modal" data-target="#modal-3" onclick="delitem(this)">
+                                                <i class="fa fa-trash"></i>&nbsp;删除
+                                            </button>
+                                        </td>
+                                        <!--编辑任务模态框-->
+                                        <div class="modal fade" id="modal-2" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content" style="width: 90%">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">编辑任务</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="modal-body p-4" id="add_case">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">任务编号</label>
+                                                            <input id="edit_task_id" type="text"
+                                                                   class="form-control" readonly>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">任务名称</label>
+                                                            <input id="edit_task_name" type="text"
+                                                                   class="form-control">
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">任务描述</label>
+                                                            <textarea id="edit_task_describe"
+                                                                      class="form-control"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">用例列表</label>
+                                                            <ul id="treeDemo1" class="ztree"></ul>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="single-select">状态</label>
+                                                            <select id="edit_task_status" class="form-control">
+                                                                <option>未执行</option>
+                                                                <option>执行中</option>
+                                                                <option>执行完成</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="modal-footer border-0">
+                                                        <button type="button"
+                                                                class="btn btn-link btn-rounded btn-secondary"
+                                                                data-dismiss="modal">
+                                                            取消
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-rounded btn-secondary"
+                                                                onclick="task_edit(this)">提交
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--删除任务模态框-->
+                                        <div class="modal fade" id="modal-3" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog modal-sm" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">提示</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h6>确定删除任务《<span id="del_case_id"></span>》吗?</h6>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                                class="btn btn-link btn-rounded btn-secondary"
+                                                                data-dismiss="modal">
+                                                            取消
+                                                        </button>
+
+                                                        <button type="button"
+                                                                class="btn btn-rounded btn-secondary"
+                                                                onclick="task_delete(this)">
+                                                            确定
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="#" style="float: right">
+                            <!-- Pagination分页 -->
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-template d-flex justify-content-center">
+                                    {% if task_list.has_previous %}
+                                        <li class="page-item">
+                                            <a href="?{{ task_list.previous_page_number.querystring }}"
+                                               class="page-link" aria-label="Previous">
+                                                <span aria-hidden="true">上一页</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% for page in task_list.pages %}
+                                        {% if page %}
+                                            {% ifequal page task_list.number %}
+                                                <li class="page-item active"><a
+                                                        href="?{{ page.querystring }}" class="page-link">{{ page }}</a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item"><a href="?{{ page.querystring }}"
+                                                                         class="page-link">{{ page }}</a>
+                                                </li>
+                                            {% endifequal %}
+                                        {% else %}
+                                            <li class="page-item"><a href="" class="page-link">...</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if task_list.has_next %}
+                                        <li class="page-item">
+                                            <a href="?{{ task_list.next_page_number.querystring }}"
+                                               class="page-link" aria-label="Next">
+                                                <span aria-hidden="true">下一页</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+
+
+                         <select id="page666" onchange="window.location=this.value">
+                            {% for num in nums_list %}
+                                {% ifequal num page_num %}
+                                    <option value="?nums={{ num }}" selected="selected">{{ num }}</option>
+                                {% else %}
+                                     <option value="?nums={{ num }}">{{ num }}</option>
+                                {% endifequal %}
+
+                            {% endfor %}
+                        </select>
+                        <label>条/页</label>&nbsp;
+                        <label>显示 {{ start }} 到 {{ end }} 条，共 {{ counts }} 条</label>&nbsp;
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+{% endblock %}
+{% block custom_js %}
+    <script>
+        $(function () {
+            $('#modal-1').modal('hide')
+            $('#modal-2').modal('hide')
+            $('#modal-3').modal('hide')
+            $('#modal-4').modal('hide')
+        });
+    </script>
+     <script>
+    $(document).ready(function(){
+
+        $(".modal-dialog").draggable();//为模态对话框添加拖拽
+
+
+    })
+</script>
+    <script>
+        //模态框框关闭后刷新页面
+        $(function () {
+            $('#modal-1').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+            $('#modal-2').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+            $('#modal-3').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+            $('#modal-4').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+        });
+    </script>
+    <script>
+        //利用Ajax发送请求到后端,新建任务
+        function task_add(obj) {
+            var sr = $(obj).parent().prev();
+            var task_name = sr.find("input#add_task_name").val();
+            var task_describe = sr.find("textarea#add_task_describe").val();
+            var task_status = sr.find("select#add_task_status").val();
+            var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+            var nodes = treeObj.getCheckedNodes(true);
+            var cases = new Array();
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].isParent == false) {
+                    console.log("节点id:" + nodes[i].id);  //获取选中节点的值
+                    cases.push(nodes[i].id);
+                }
+
+            }
+            // 将列表转为字符串
+            var task_case = JSON.stringify(cases);
+
+
+            if (task_name !== '' && task_describe !== '' && task_status !== '' && task_case !== '') {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "{% url 'apitest:task_add'%}",
+                    data: {
+                        'task_name': task_name,
+                        'task_describe': task_describe,
+                        'task_status': task_status,
+                        'task_case': task_case,
+
+                    },
+                    async: true,
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success: function (data) {
+                        if (data.status == 'success') {
+                            window.location.href = "{% url 'apitest:task_list' %}";
+                        }
+
+                    },
+                });
+
+            }
+
+
+        }
+    </script>
+
+
+    <script>
+        //传入需要编辑的数据到模态框
+        function edititem(obj) {
+            var tr = $(obj).parent().parent();
+            var task_id = tr.children("td#task_id").text();
+            var task_name = tr.children("td#task_name").text();
+            var task_status = tr.children("td#task_status").text();
+            var task_describe = tr.children("td#task_describe").text();
+            var zTreeObj;
+            var setting = {
+                view: {
+                    selectedMulti: false
+                },
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+
+            };
+            $(document).ready(function () {
+                // 调用获取用例树
+
+                $.post("/apitest/get_case_tree/", {'task_id': task_id, csrfmiddlewaretoken: '{{ csrf_token  }}'},
+                    function (resp) {
+                        if (resp.status === 10200) {
+                            var zNodes = resp.data;
+                            zTreeObj = $.fn.zTree.init($("#treeDemo1"), setting, zNodes);
+                            zTreeObj.expandAll(true);  //设置默认展开
+                        }
+
+
+                    });
+
+            });
+
+            $('#edit_task_id').val(task_id);
+            $('#edit_task_name').val(task_name);
+            $('#edit_task_describe').val(task_describe);
+            $('#edit_task_status').val(task_status);
+
+
+        };
+    </script>
+    <script>
+        //传入需要编辑的数据到模态框
+        function edititem1(obj) {
+            var tr = $(obj).parent();
+            var task_id = tr.children("td#task_id").text();
+            var task_name = tr.children("td#task_name").text();
+            var task_status = tr.children("td#task_status").text();
+            var task_describe = tr.children("td#task_describe").text();
+            var zTreeObj;
+            var setting = {
+                view: {
+                    selectedMulti: false
+                },
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+
+            };
+            $(document).ready(function () {
+                // 调用获取用例树
+
+                $.post("/apitest/get_case_tree/", {'task_id': task_id, csrfmiddlewaretoken: '{{ csrf_token  }}'},
+                    function (resp) {
+                        if (resp.status === 10200) {
+                            var zNodes = resp.data;
+                            zTreeObj = $.fn.zTree.init($("#treeDemo1"), setting, zNodes);
+                            zTreeObj.expandAll(true);  //设置默认展开
+                        }
+
+
+                    });
+
+            });
+
+            $('#edit_task_id').val(task_id);
+            $('#edit_task_name').val(task_name);
+            $('#edit_task_describe').val(task_describe);
+            $('#edit_task_status').val(task_status);
+
+
+        };
+    </script>
+
+    <script>
+        //前端数据修改后，通过Ajax发送请求到后端
+        function task_edit(obj) {
+            var sr = $(obj).parent().prev();
+            var task_id = sr.find("input#edit_task_id").val();
+            var task_name = sr.find("input#edit_task_name").val();
+            var task_describe = sr.find("textarea#edit_task_describe").val();
+            var task_status = sr.find("select#edit_task_status").val();
+            var treeObj = $.fn.zTree.getZTreeObj("treeDemo1");
+            var nodes = treeObj.getCheckedNodes(true);
+            var cases = new Array();
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].isParent == false) {
+                    console.log("节点id:" + nodes[i].id);  //获取选中节点的值
+                    cases.push(nodes[i].id);
+                }
+
+            }
+            // 将列表转为字符串
+            var task_case = JSON.stringify(cases);
+
+
+            if (task_name !== '' && task_describe !== '' && task_status !== '' && task_case !== '') {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "{% url 'apitest:task_edit'%}",
+                    data: {
+                        'task_id': task_id,
+                        'task_name': task_name,
+                        'task_describe': task_describe,
+                        'task_status': task_status,
+                        'task_case': task_case,
+
+                    },
+                    async: true,
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success: function (data) {
+                        if (data.status == 'success') {
+                            window.location.href = "{% url 'apitest:task_list' %}";
+                        }
+
+                    },
+                });
+
+            }
+        }
+    </script>
+    <script>
+        //传入删除模态框单个任务的id值
+        function delitem(obj) {
+            var tr = $(obj).parent().parent();
+            var task_name = tr.children("td#task_name").text();
+            $('#del_case_id').text(task_name);
+
+
+        };
+    </script>
+    <script>
+        //利用Ajax发送请求到后端，删除任务
+        function task_delete(obj) {
+            var sr = $(obj).parent().prev();
+            var task_name = sr.find("span#del_case_id").text();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'apitest:task_delete'%}",
+                data: {'task_name': task_name},
+                async: true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    if (data.status == 'success') {
+                        window.location.href = "{% url 'apitest:task_list' %}";
+                    }
+
+                },
+            });
+        }
+    </script>
+    <script type="text/javascript">
+
+	//发送方法
+	function TaskRun(tid) {
+        $.post("/apitest/task-run/", {'task_id': tid, csrfmiddlewaretoken: '{{ csrf_token  }}'},
+		function (resp) {
+		    if(resp.status == 10200){
+		        window.alert(resp.message);
+                window.location.href = "/apitest/show-task-report/"+ tid;  // 刷新页面
+			}
+
+		});
+
+	};
+
+
+</script>
+    <script type="text/javascript" src="/static/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/static/ztree/js/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="/static/ztree/js/jquery.ztree.exedit.js"></script>
+    <script type="text/javascript">
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            check: {
+                enable: true
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+
+        };
+
+        $(document).ready(function () {
+            $.get("/apitest/get_case_tree", {}, function (resp) {
+                if (resp.status === 10200) {
+                    var zNodes = resp.data;
+                    zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                    zTreeObj.expandAll(false);  //设置默认展开
+                }
+
+            });
+        });
+
+
+    </script>
+
+
+
+    <script>
+        //实现列表全选功能
+        $(function () {
+            function initTableCheckbox() {
+                var $thr = $('table thead tr');
+                var $checkAllTh = $thr.find('input');
+                /*将全选/反选复选框添加到表头最前，即增加一列*/
+                /*“全选/反选”复选框*/
+                var $checkAll = $thr.find('input');
+                $checkAll.click(function (event) {
+                    /*将所有行的选中状态设成全选框的选中状态*/
+                    $tbr.find('input').prop('checked', $(this).prop('checked'));
+                    /*并调整所有选中行的CSS样式*/
+                    if ($(this).prop('checked')) {
+                        $tbr.find('input').parent().parent().addClass('warning');
+                    } else {
+                        $tbr.find('input').parent().parent().removeClass('warning');
+                    }
+                    /*阻止向上冒泡，以防再次触发点击操作*/
+                    event.stopPropagation();
+                });
+                /*点击全选框所在单元格时也触发全选框的点击操作*/
+                $checkAllTh.click(function () {
+                    $(this).find('input').click();
+                });
+                var $tbr = $('table tbody tr');
+                /*每一行都在最前面插入一个选中复选框的单元格*/
+                /*点击每一行的选中复选框时*/
+                $tbr.find('input').click(function (event) {
+                    /*调整选中行的CSS样式*/
+                    $(this).parent().parent().toggleClass('warning');
+                    /*如果已经被选中行的行数等于表格的数据行数，将全选框设为选中状态，否则设为未选中状态*/
+                    $checkAll.prop('checked', $tbr.find('input:checked').length == $tbr.length ? true : false);
+                    /*阻止向上冒泡，以防再次触发点击操作*/
+                    event.stopPropagation();
+                });
+                /*点击每一行时也触发该行的选中操作*/
+                /*$tbr.click(function () {
+                    $(this).find('input').click();
+                });*/
+            }
+
+            initTableCheckbox();
+        });
+    </script>
+    <script>
+        //利用Ajax发送请求到后端，删除项目
+        function batch_delete(obj) {
+            var ids = [];
+            $("input[type='checkbox'][name='checkItem']:checked").each(function () {
+                ids.push($(this).val());
+            });
+             $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'apitest:task_batch_delete'%}",
+                traditional: true,//添加该行后，ajax就可以传数组
+                data: {'ids': ids},
+                async: true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    if (data.status == 'success') {
+                        window.location.href = "{% url 'apitest:task_list' %}";
+                    }
+
+                },
+            });
+
+        }
+    </script>
+{% endblock %}
+

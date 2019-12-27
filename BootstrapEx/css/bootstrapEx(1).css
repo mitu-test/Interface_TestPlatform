@@ -1,0 +1,35 @@
+.form-group input {
+    /*margin-bottom: 10px;*/
+}
+.form-group>div{
+    margin-bottom: 0px;
+}
+.panel-group .panel
+{
+    overflow:visible;
+}
+.f-tree-cell-icon {
+    min-width: 18px;
+    display: inline-block;
+    /* vertical-align: top; */
+}
+.modal-header {
+    min-height: 14.42px;
+    padding: 10px;
+    border-bottom: 0px solid #e5e5e5;
+}
+.modal-footer {
+    padding: 19px 20px 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-top: 0px;
+    text-align: right;
+    border-top: 0px solid #e5e5e5;
+}
+button.disabled>.filter-option{
+	color:#000;
+}
+button.dropdown-toggle.disabled{
+    background-color: #eee;
+    opacity:1;
+}

@@ -1,0 +1,19 @@
+.card {
+  border: 1px solid $border-color;
+  margin-bottom: 1.5rem;
+}
+
+.card-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  a, button {
+    display: block;
+    float: left;
+    padding: $card-spacer-y $card-spacer-x;
+    margin: 0 !important;
+    text-align: center;
+    background: transparent;
+  }
+}

@@ -1,0 +1,1 @@
+{"\u6839\u636e\u53f7\u7801\u67e5\u8be2\u5f52\u5c5e\u5730": {"url": "https://tcc.taobao.com/cc/json/mobile_tel_segment.htm?", "method": "GET", "header": "{}", "param_type": "param", "param_body": "{\"tel\":17764591649}", "assert_type": "\u5305\u542b", "assert_body": "\u6c5f\u897f"}}

@@ -1,0 +1,17 @@
+/**
+ * Toggle Switch
+ */
+@mixin ts-color($color) {
+  input {
+    &:not(:disabled) {
+      &:checked {
+        & + .ts-helper {
+          background: lighten($color, 20%);
+          &:before {
+            background: $color;
+          }
+        }
+      }
+    }
+  }
+}

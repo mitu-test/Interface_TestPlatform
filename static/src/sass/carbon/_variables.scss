@@ -1,0 +1,141 @@
+/**
+ * Color System
+ */
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #aaa !default;
+$gray-600: #999 !default;
+$gray-700: #777 !default;
+$gray-800: #575757 !default;
+$gray-900: #4d4d4d !default;
+$black: #444 !default;
+
+$blue: #42a5f5 !default;
+$indigo: #3F51B5 !default;
+$purple: #9C27B0 !default;
+$pink: #E91E63 !default;
+$red: #ef5350 !default;
+$orange: #fdb244 !default;
+$yellow: #ffca28 !default;
+$green: #9ccc65 !default;
+$teal: #009688 !default;
+$cyan: #26c6da !default;
+
+$colors: (
+        "blue": $blue,
+        "indigo": $indigo,
+        "purple": $purple,
+        "pink": $pink,
+        "red": $red,
+        "orange": $orange,
+        "yellow": $yellow,
+        "green": $green,
+        "teal": $teal,
+        "cyan": $cyan,
+        "white": $white,
+        "gray": $gray-600,
+        "gray-dark": $gray-900
+);
+
+$theme-colors: (
+        "primary": $blue,
+        "secondary": $gray-500,
+        "success": $green,
+        "info": $cyan,
+        "warning": $yellow,
+        "danger": $red,
+        "light": $gray-100,
+        "dark": $black
+);
+
+$yiq-contrasted-threshold: 200;
+
+/**
+ * Options
+ */
+$enable-rounded: false;
+
+/**
+ * Body
+ */
+$body-bg: #efefef;
+$body-color: $black;
+
+/**
+ * Components
+ */
+$border-color: $gray-300;
+
+/**
+ * Tables
+ */
+$table-dark-bg: $black;
+
+/**
+ * Links
+ */
+$link-color: $gray-700;
+$link-hover-decoration: none;
+
+/**
+ * Fonts
+ */
+$font-size-base: 0.875rem;
+$font-weight-bold: 500;
+$headings-margin-bottom: 1rem;
+
+/**
+ * Header
+ */
+$header-height: 60px;
+$header-bg: #fff;
+
+/**
+ * Sidebar
+ */
+$sidebar-width: 240px;
+$sidebar-bg: #272727;
+
+$sidebar-nav-link-padding-x: 24px;
+$sidebar-nav-link-padding-y: 16px;
+$sidebar-nav-link-color: lighten($black, 35%);
+$sidebar-nav-link-hover-bg-color: lighten($blue, 15%);
+$sidebar-nav-link-hover-color: lighten($black, 60%);
+$sidebar-nav-icon-color: lighten($black, 50%);
+$sidebar-nav-icon-hover-color: #fff;
+$sidebar-nav-icon-active-color: $blue;
+$sidebar-nav-link-active-color: #fff;
+
+$sidebar-nav-title-padding-x: 1rem;
+$sidebar-nav-title-padding-y: 0.8rem;
+$sidebar-nav-title-color: lighten($black, 50%);
+
+/**
+ * Content
+ */
+$content-padding-x: 32px;
+$content-padding-y: 32px;
+
+/**
+ * Cards
+ */
+$card-border-radius: 0;
+$card-spacer-x: 1rem;
+$card-spacer-y: 1rem;
+$card-cap-bg: #fff;
+$card-border-color: none;
+
+/**
+ * Forms
+ */
+$input-btn-focus-box-shadow: none;
+
+/**
+ * Dropdowns
+ */
+$dropdown-item-padding-x: 1rem;
+$dropdown-item-padding-y: 0.6rem;
+$dropdown-border-color: $border-color;

@@ -1,0 +1,951 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}接口用例{% endblock %}
+{% block css %}
+{% endblock %}
+{% block content %}
+    <div class="content" xmlns="http://www.w3.org/1999/html">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <i class="fa fa-home"></i>&nbsp;首页&nbsp;<i class="fa fa-angle-right"></i>&nbsp;接口管理&nbsp;<i
+                            class="fa fa-angle-right"></i>&nbsp;接口用例
+
+                    </div>
+
+                    <div class="card-body">
+                        <button id="test" type="button" class="btn btn-rounded btn-info btn-secondary btn-sm"
+                                data-toggle="modal" data-target="#modal-1" data-remote="/apitest/case-add/">
+                            <i class="fa fa-plus"></i></i>&nbsp;新建用例
+                        </button>
+                        <!--新建用例模态框-->
+                        <div class="modal fade" id="modal-1" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="width: 90%">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">新建用例</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body p-4" id="add_interface">
+                                        <ul class="nav nav-tabs" role="tablist" style="font-weight:bold">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="tab" href="#home" role="tab"
+                                                   aria-controls="home">基本信息</a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#profile" role="tab"
+                                                   aria-controls="profile">请求信息</a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#messages" role="tab"
+                                                   aria-controls="messages">断言信息</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#messages1" role="tab"
+                                                   aria-controls="messages1">变量/参数化</a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="home" role="tabpanel">
+                                                <div class="form-group">
+                                                    <label class="form-control-label">用例名称</label>
+                                                    <input id="add_testcase_name" type="text"
+                                                           class="form-control">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-control-label">项目名称</label>
+                                                    <select id="add_interface_project" class="form-control">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">模块名称</label>
+                                                    <select id="add_interface_module" class="form-control">
+                                                        {% for module_name in module_list %}
+                                                            <option>{{ module_name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">接口名称</label>
+                                                    <select id="add_interface_module" class="form-control">
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="single-select">用例描述</label>
+                                                    <textarea id="edit_module_describe"
+                                                              class="form-control"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">创建者</label>
+                                                    <input id="add_testcase_name" type="text"
+                                                           class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="toggle-switch" data-ts-color="secondary">
+                                                        <label for="ts1" class="ts-label">状态</label>
+                                                        <input id="ts1" type="checkbox" hidden="hidden">
+                                                        <label for="ts1" class="ts-helper"></label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="tab-pane" id="profile" role="tabpanel">
+
+
+                                                <div class="form-group">
+                                                    <label class="form-control-label">请求方式</label>
+                                                    <select id="add_interface_module" class="form-control">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">请求api</label>
+                                                    <input id="add_testcase_name" type="text"
+                                                           class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">请求头</label>
+                                                    <ul id="addheadersul"
+                                                        style="list-style-type: none;padding-left: 0px">
+                                                        <li>
+                                                            <input id="ipt10" class="addheaders" type="text"
+                                                                   placeholder="名称"
+                                                                   style="height:35px;width: 155px"/><input
+                                                                class="addheaders" type="text" placeholder="值"
+                                                                style="height:35px;width: 155px"/>
+                                                            <input id="addheaders" type="button" class=""
+                                                                   style="height:35px" value="+"
+                                                                   onclick="addheaders(this)">
+                                                            <input id="delheaders" type="button" class=""
+                                                                   style="height:35px" value="-"
+                                                                   onclick="delheaders(this)">
+                                                            <input id="addmergeheaders" type="text" style="display:None"
+                                                                   name="headers"/>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="single-select">参数类型</label>
+                                                    <select id="add_interface_status" class="form-control">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="single-select">参数体</label>
+                                                    <ul id="addparams"
+                                                        style="list-style-type: none;padding-left: 0px">
+                                                        <li>
+                                                            <input id="ipt10" class="addheaders" type="text"
+                                                                   placeholder="参数名"
+                                                                   style="height:35px;width: 155px"/><input
+                                                                class="addheaders" type="text" placeholder="参数值"
+                                                                style="height:35px;width: 155px"/>
+                                                            <input id="addheaders" type="button" class=""
+                                                                   style="height:35px" value="+" onclick="addparams(this)">
+                                                            <input id="delheaders" type="button" class=""
+                                                                   style="height:35px" value="-" onclick="delparams(this)">
+                                                            <input id="addmergeheaders" type="text" style="display:None"
+                                                                   name="headers"/>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="tab-pane" id="messages" role="tabpanel">
+                                                <div class="form-group">
+                                                    <label for="single-select">提取响应值</label>
+                                                    <ul id="addextract"
+                                                        style="list-style-type: none;padding-left: 0px">
+                                                        <li>
+                                                            <input id="ipt10" class="addheaders" type="text"
+                                                                   placeholder="名称"
+                                                                   style="height:35px;width: 155px"/><input
+                                                                class="addheaders" type="text" placeholder="值"
+                                                                style="height:35px;width: 155px"/>
+                                                            <input id="addheaders" type="button" class=""
+                                                                   style="height:35px" value="+" onclick="addextract(this)">
+                                                            <input id="delheaders" type="button" class=""
+                                                                   style="height:35px" value="-" onclick="delextract(this)">
+                                                            <input id="addmergeheaders" type="text" style="display:None"
+                                                                   name="headers"/>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-control-label">断言响应值</label>
+                                                    <ul id="addassert"
+                                                        style="list-style-type: none;padding-left: 0px">
+                                                        <li>
+                                                            <input id="ipt10" class="addheaders" type="text"
+                                                                   placeholder="名称" style="height:35px;width: 106px"/>
+                                                            <select class="addassertWay"
+                                                                    style="height:35px;width: 90px">
+                                                                <option value="assertEqual">等于</option>
+                                                                <option value="assertNotEqual">不等于</option>
+                                                                <option value="assertRegexpMatches">包含</option>
+                                                                <option value="assertNotRegexpMatches">不包含</option>
+                                                                <option value="assertGreater">大于</option>
+                                                                <option value="assertGreaterEqual">大于等于</option>
+                                                                <option value="assertLess">小于</option>
+                                                                <option value="assertLessEqual">小于等于</option>
+                                                                <option value="assertIn">在列表中</option>
+                                                                <option value="assertNotIn">不在列表中</option>
+                                                            </select>
+                                                            <input class="addheaders" type="text" placeholder="值"
+                                                                   style="height:35px;width: 106px"/>
+                                                            <input id="addheaders" type="button" class=""
+                                                                   style="height:35px" value="+" onclick="addassert(this)">
+                                                            <input id="delheaders" type="button" class=""
+                                                                   style="height:35px" value="-" onclick="delassert(this)">
+                                                            <input id="addmergeheaders" type="text" style="display:None"
+                                                                   name="headers"/>
+                                                        </li>
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="messages1" role="tabpanel">
+                                                <div class="form-group">
+                                                    <label for="single-select">变量</label>
+                                                    <ul id="addheadersul"
+                                                        style="list-style-type: none;padding-left: 0px">
+                                                        <li>
+                                                            <input id="ipt10" class="addheaders" type="text"
+                                                                   placeholder="变量名"
+                                                                   style="height:35px;width: 155px"/><input
+                                                                class="addheaders" type="text" placeholder="变量值"
+                                                                style="height:35px;width: 155px"/>
+                                                            <input id="addheaders" type="button" class=""
+                                                                   style="height:35px" value="+">
+                                                            <input id="delheaders" type="button" class=""
+                                                                   style="height:35px" value="-">
+                                                            <input id="addmergeheaders" type="text"
+                                                                   style="display:None" name="headers"/>
+                                                        </li>
+                                                    </ul>
+                                                    <label for="single-select">参数</label>
+                                                    <ul id="addheadersul"
+                                                        style="list-style-type: none;padding-left: 0px">
+                                                        <li>
+                                                            <input id="ipt10" class="addheaders" type="text"
+                                                                   placeholder="参数名"
+                                                                   style="height:35px;width: 155px"/><input
+                                                                class="addheaders" type="text" placeholder="参数值"
+                                                                style="height:35px;width: 155px"/>
+                                                            <input id="addheaders" type="button" class=""
+                                                                   style="height:35px" value="+">
+                                                            <input id="delheaders" type="button" class=""
+                                                                   style="height:35px" value="-">
+                                                            <input id="addmergeheaders" type="text"
+                                                                   style="display:None" name="headers"/>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="modal-footer border-0">
+                                        <button type="button"
+                                                class="btn btn-link btn-rounded btn-secondary"
+                                                data-dismiss="modal">
+                                            取消
+                                        </button>
+                                        <button type="button" class="btn btn-rounded btn-secondary"
+                                                onclick="interface_add(this)">提交
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-rounded btn-danger btn-sm" data-toggle="modal"
+                                data-target="#modal-4">
+                            <i class="fa fa-ban"></i>&nbsp;批量删除
+                        </button>
+                        <!--批量删除模态框-->
+                        <div class="modal fade" id="modal-4" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog " role="document">
+                                <div class="modal-content">
+                                    <form method="post" action="#">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">提示</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button"
+                                                    class="btn btn-link btn-rounded btn-secondary"
+                                                    data-dismiss="modal">
+                                                取消
+                                            </button>
+                                            <button type="submit"
+                                                    class="btn btn-rounded btn-secondary">确定
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="float: right;top:-8px">
+                            <form class="navbar-form navbar-right" action="{% url 'apitest:interface_search' %}"
+                                  method="get">
+                                <div class="input-group">
+                                    <input type="text" id="input-group-2" name="input2" class="form-control"
+                                           placeholder="输入接口名称/负责人" style="border-radius:20px">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-secondary" style="border-radius:20px"><i
+                                                class="fa fa-search"></i> Search</button>
+                                </span>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>用例名称</th>
+                                    <th>接口名称</th>
+                                    <th>请求方法</th>
+                                    <th>请求头</th>
+                                    <th>参数类型</th>
+                                    <th>参数体</th>
+                                    <th>断言类型</th>
+                                    <th>断言体</th>
+                                    <th>优先级</th>
+                                    <th>创建者</th>
+                                    <th>更新时间</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for testcase in case_list.object_list %}
+                                    <tr>
+                                        <td id="testcase_id" width="10">{{ testcase.id }}</td>
+                                        <td id="testcase_name" class="text-nowrap">{{ testcase.name }}</td>
+                                        <td id="testcase_interface">{{ testcase.Interface }}</td>
+                                        <td id="testcase_method">{% ifequal testcase.method 0 %}GET
+                                            {% else %}{% ifequal testcase.method 1 %}POST
+                                                {% else %}{% ifequal testcase.method 2 %}DELETE{% else %}PUT
+                                                {% endifequal %}{% endifequal %}{% endifequal %}</td>
+                                        <td id="testcase_header">{{ testcase.header }}</td>
+                                        <td id="testcase_param_type">{% ifequal testcase.param_type 0 %}
+                                            form-data{% else %}json{% endifequal %}</td>
+                                        <td id="testcase_param_body">{{ testcase.param_body }}</td>
+                                        <td id="testcase_assert_type">{% ifequal testcase.param_type 0 %}包含{% else %}
+                                            匹配{% endifequal %}</td>
+                                        <td id="testcase_assert_body">{{ testcase.param_body }}</td>
+                                        <td id="testcase_weights">{{ testcase.weights }}</td>
+                                        <td id="testcase_maker">{{ testcase.maker }}</td>
+                                        <td>{{ testcase.create_time }}</td>
+                                        <td class="text-center" width="160">
+
+                                            <button type="button"
+                                                    class="btn btn-rounded btn-success btn-secondary btn-sm"
+                                                    data-toggle="modal" data-target="#modal-2" onclick="edititem(this)">
+                                                <i class="fa fa-pencil-alt"></i>&nbsp;编辑
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-rounded btn-warning btn-sm"
+                                                    data-toggle="modal" data-target="#modal-3" onclick="delitem(this)">
+                                                <i class="fa fa-trash"></i>&nbsp;删除
+                                            </button>
+                                        </td>
+                                        <!--编辑用例模态框-->
+                                        <div class="modal fade" id="modal-2" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content" style="width: 90%">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">编辑接口</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="modal-body p-4">
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">接口编号</label>
+                                                            <input id="edit_interface_id" type="text"
+                                                                   class="form-control" readonly>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">接口名称</label>
+                                                            <input id="edit_interface_name" type="text"
+                                                                   class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">项目名称</label>
+                                                            <select id="edit_interface_project" class="form-control"
+                                                                    onchange="get_module_name1(this)">
+                                                                {% for project_name in projects_list %}
+                                                                    <option>{{ project_name }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">模块名称</label>
+                                                            <select id="edit_interface_module" class="form-control">
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">api路径</label>
+                                                            <input id="edit_interface_api" type="text"
+                                                                   class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-control-label">接口描述</label>
+                                                            <textarea id="edit_interface_describe"
+                                                                      class="form-control"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="single-select">状态</label>
+                                                            <select id="edit_interface_status" class="form-control">
+                                                                <option>开启</option>
+                                                                <option>关闭</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="modal-footer border-0">
+                                                        <button type="button"
+                                                                class="btn btn-link btn-rounded btn-secondary"
+                                                                data-dismiss="modal">
+                                                            取消
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-rounded btn-secondary"
+                                                                onclick="interface_edit(this)">提交
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--删除用例模态框-->
+                                        <div class="modal fade" id="modal-3" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div class="modal-dialog modal-sm" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">提示</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h6>确定删除该接口《<span id="del_interface_id"></span>》吗?</h6>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                                class="btn btn-link btn-rounded btn-secondary"
+                                                                data-dismiss="modal">
+                                                            取消
+                                                        </button>
+
+                                                        <button type="button"
+                                                                class="btn btn-rounded btn-secondary"
+                                                                onclick="interface_delete(this)">
+                                                            确定
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="#" style="float: right">
+                            <!-- Pagination分页 -->
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-template d-flex justify-content-center">
+                                    {% if inter_list.has_previous %}
+                                        <li class="page-item">
+                                            <a href="?{{ inter_list.previous_page_number.querystring }}"
+                                               class="page-link" aria-label="Previous">
+                                                <span aria-hidden="true">上一页</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% for page in inter_list.pages %}
+                                        {% if page %}
+                                            {% ifequal page inter_list.number %}
+                                                <li class="page-item active"><a
+                                                        href="?{{ page.querystring }}" class="page-link">{{ page }}</a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item"><a href="?{{ page.querystring }}"
+                                                                         class="page-link">{{ page }}</a>
+                                                </li>
+                                            {% endifequal %}
+                                        {% else %}
+                                            <li class="page-item"><a href="" class="page-link">...</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if inter_list.has_next %}
+                                        <li class="page-item">
+                                            <a href="?{{ inter_list.next_page_number.querystring }}"
+                                               class="page-link" aria-label="Next">
+                                                <span aria-hidden="true">下一页</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+
+
+                        <select id="" class="">
+                            <option>10</option>
+                            <option>25</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                        <label>条/页</label>&nbsp;
+                        <label>显示 1 到 1 条，共 1 条</label>&nbsp;
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+{% endblock %}
+{% block custom_js %}
+
+    <script>
+        //添加请求头编辑框
+        function addheaders(obj) {
+            $('#addheadersul').append("<li >\n" +
+                "                                                            <input id=\"ipt10\" class=\"addheaders\" type=\"text\"\n" +
+                "                                                                   placeholder=\"名称\"\n" +
+                "                                                                   style=\"height:35px;width: 155px\"/><input\n" +
+                "                                                                class=\"addheaders\" type=\"text\" placeholder=\"值\"\n" +
+                "                                                                style=\"height:35px;width: 155px\"/>\n" +
+                "                                                            <input id=\"addheaders\" type=\"button\" class=\"\"\n" +
+                "                                                                   style=\"height:35px\" value=\"+\" onclick=\"addheaders(this)\">\n" +
+                "                                                            <input id=\"delheaders\" type=\"button\" class=\"\"\n" +
+                "                                                                   style=\"height:35px\" value=\"-\" onclick=\"delheaders(this)\">\n" +
+                "                                                            <input id=\"addmergeheaders\" type=\"text\" style=\"display:None\"\n" +
+                "                                                                   name=\"headers\"/>\n" +
+                "                                                        </li>");
+        }
+    </script>
+
+    <script>
+        //删除请求头编辑框
+        function delheaders(obj) {
+            var tr = $(obj).parent().parent();
+            if (tr.children("li").length > 1) {
+                $(obj).parent().remove();
+            }
+
+        }
+    </script>
+
+    <script>
+        //添加参数编辑框
+        function addparams(obj) {
+            $('#addparams').append(" <li>\n" +
+                "                                                            <input id=\"ipt10\" class=\"addheaders\" type=\"text\"\n" +
+                "                                                                   placeholder=\"参数名\"\n" +
+                "                                                                   style=\"height:35px;width: 155px\"/><input\n" +
+                "                                                                class=\"addheaders\" type=\"text\" placeholder=\"参数值\"\n" +
+                "                                                                style=\"height:35px;width: 155px\"/>\n" +
+                "                                                            <input id=\"addheaders\" type=\"button\" class=\"\"\n" +
+                "                                                                   style=\"height:35px\" value=\"+\" onclick=\"addparams(this)\">\n" +
+                "                                                            <input id=\"delheaders\" type=\"button\" class=\"\"\n" +
+                "                                                                   style=\"height:35px\" value=\"-\" onclick=\"delparams(this)\">\n" +
+                "                                                            <input id=\"addmergeheaders\" type=\"text\" style=\"display:None\"\n" +
+                "                                                                   name=\"headers\"/>\n" +
+                "                                                        </li>");
+        }
+    </script>
+
+    <script>
+        //删除参数编辑框
+        function delparams(obj) {
+            var tr = $(obj).parent().parent();
+            if (tr.children("li").length > 1) {
+                $(obj).parent().remove();
+            }
+
+        }
+    </script>
+     <script>
+        //添加提取变量编辑框
+        function addextract(obj) {
+            $('#addextract').append(" <li>\n" +
+                "                                                            <input id=\"ipt10\" class=\"addheaders\" type=\"text\"\n" +
+                "                                                                   placeholder=\"参数名\"\n" +
+                "                                                                   style=\"height:35px;width: 155px\"/><input\n" +
+                "                                                                class=\"addheaders\" type=\"text\" placeholder=\"参数值\"\n" +
+                "                                                                style=\"height:35px;width: 155px\"/>\n" +
+                "                                                            <input id=\"addheaders\" type=\"button\" class=\"\"\n" +
+                "                                                                   style=\"height:35px\" value=\"+\" onclick=\"addextract(this)\">\n" +
+                "                                                            <input id=\"delheaders\" type=\"button\" class=\"\"\n" +
+                "                                                                   style=\"height:35px\" value=\"-\" onclick=\"delextract(this)\">\n" +
+                "                                                            <input id=\"addmergeheaders\" type=\"text\" style=\"display:None\"\n" +
+                "                                                                   name=\"headers\"/>\n" +
+                "                                                        </li>");
+        }
+    </script>
+
+    <script>
+        //删除提取变量编辑框
+        function delextract(obj) {
+            var tr = $(obj).parent().parent();
+            if (tr.children("li").length > 1) {
+                $(obj).parent().remove();
+            }
+
+        }
+    </script>
+    <script>
+        //添加断言编辑框
+        function addassert(obj) {
+            $('#addassert').append(" <li>\n" +
+                "                                                            <input id=\"ipt10\" class=\"addheaders\" type=\"text\"\n" +
+                "                                                                   placeholder=\"名称\" style=\"height:35px;width: 106px\"/>\n" +
+                "                                                            <select class=\"addassertWay\"\n" +
+                "                                                                    style=\"height:35px;width: 90px\">\n" +
+                "                                                                <option value=\"assertEqual\">等于</option>\n" +
+                "                                                                <option value=\"assertNotEqual\">不等于</option>\n" +
+                "                                                                <option value=\"assertRegexpMatches\">包含</option>\n" +
+                "                                                                <option value=\"assertNotRegexpMatches\">不包含</option>\n" +
+                "                                                                <option value=\"assertGreater\">大于</option>\n" +
+                "                                                                <option value=\"assertGreaterEqual\">大于等于</option>\n" +
+                "                                                                <option value=\"assertLess\">小于</option>\n" +
+                "                                                                <option value=\"assertLessEqual\">小于等于</option>\n" +
+                "                                                                <option value=\"assertIn\">在列表中</option>\n" +
+                "                                                                <option value=\"assertNotIn\">不在列表中</option>\n" +
+                "                                                            </select>\n" +
+                "                                                            <input class=\"addheaders\" type=\"text\" placeholder=\"值\"\n" +
+                "                                                                   style=\"height:35px;width: 106px\"/>\n" +
+                "                                                            <input id=\"addheaders\" type=\"button\" class=\"\"\n" +
+                "                                                                   style=\"height:35px\" value=\"+\" onclick=\"addassert(this)\">\n" +
+                "                                                            <input id=\"delheaders\" type=\"button\" class=\"\"\n" +
+                "                                                                   style=\"height:35px\" value=\"-\" onclick=\"delassert(this)\">\n" +
+                "                                                            <input id=\"addmergeheaders\" type=\"text\" style=\"display:None\"\n" +
+                "                                                                   name=\"headers\"/>\n" +
+                "                                                        </li>");
+        }
+    </script>
+
+    <script>
+        //删除断言编辑框
+        function delassert(obj) {
+            var tr = $(obj).parent().parent();
+            if (tr.children("li").length > 1) {
+                $(obj).parent().remove();
+            }
+
+        }
+    </script>
+
+    <script>
+        $(function () {
+            $('#modal-1').modal('hide')
+            $('#modal-2').modal('hide')
+            $('#modal-3').modal('hide')
+            $('#modal-4').modal('hide')
+        });
+    </script>
+    <script>
+        //模态框框关闭后刷新页面
+        $(function () {
+            $('#modal-1').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+            $('#modal-2').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+            $('#modal-3').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+            $('#modal-4').on('hide.bs.modal', function () {
+                window.location.reload();
+            })
+        });
+    </script>
+    <script>
+        //利用Ajax发送请求到后端,新建接口
+        function interface_add(obj) {
+            var sr = $(obj).parent().prev();
+            var interface_name = sr.find("input#add_interface_name").val();
+            var interface_describe = sr.find("textarea#add_interface_describe").val();
+            var interface_module = sr.find("select#add_interface_module").val();
+            var interface_api = sr.find("input#add_interface_api").val();
+            var interface_status = sr.find("select#add_interface_status").val();
+            if (interface_name !== '' && interface_describe !== '' && interface_module !== '' && interface_api !== '' && interface_status !== '') {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "{% url 'apitest:interface_add'%}",
+                    data: {
+                        'interface_name': interface_name,
+                        'interface_describe': interface_describe,
+                        'interface_module': interface_module,
+                        'interface_api': interface_api,
+                        'interface_status': interface_status
+                    },
+                    async: true,
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success: function (data) {
+                        if (data.status == 'success') {
+                            window.location.href = "{% url 'apitest:interface_list' %}";
+                        }
+
+                    },
+                });
+
+            }
+
+
+        }
+    </script>
+
+
+    <script>
+        //传入需要编辑的数据到模态框
+        function edititem(obj) {
+            var tr = $(obj).parent().parent();
+            var interface_id = tr.children("td#interface_id").text();
+            var interface_name = tr.children("td#interface_name").text();
+            var interface_project = tr.children("td#interface_project").text();
+            var interface_module = tr.children("td#interface_module").text();
+            var interface_api = tr.children("td#interface_api").text();
+            var interface_describe = tr.children("td#interface_describe").text();
+            var interface_status = tr.children("td#interface_status").text();
+            $.get("/apitest/get_modules_name/", {"project_name": interface_project}, function (resp) {
+                if (resp.status == 10200) {
+                    $("#edit_interface_module").empty();
+                    var datalist = resp.data;
+                    for (var i = 0; i < datalist.length; i++) {
+                        if (datalist[i] == interface_module) continue;
+                        {
+                            $("#edit_interface_module").append('<option>' + datalist[i] + '</option>');
+                        }
+                    }
+                    $('#edit_interface_module').append('<option selected>' + interface_module + '</option>');
+                } else {
+                    window.alert(resp.message);
+                }
+
+            });
+
+            $('#edit_interface_id').val(interface_id);
+            $('#edit_interface_name').val(interface_name);
+            $('#edit_interface_project').val(interface_project);
+            $('#edit_interface_api').val(interface_api);
+            $('#edit_interface_describe').val(interface_describe);
+            $('#edit_interface_status').val(interface_status);
+            $('#modal-2').modal('show')
+
+
+        };
+    </script>
+
+    <script>
+        //前端数据修改后，通过Ajax发送请求到后端
+        function interface_edit(obj) {
+            var sr = $(obj).parent().prev();
+            var interface_id = sr.find("input#edit_interface_id").val();
+            var interface_name = sr.find("input#edit_interface_name").val();
+            var interface_module = sr.find("select#edit_interface_module").val();
+            var interface_api = sr.find("input#edit_interface_api").val();
+            var interface_describe = sr.find("textarea#edit_interface_describe").val();
+            var interface_status = sr.find("select#edit_interface_status").val();
+            if (interface_name !== '' && interface_describe !== '' && interface_module !== '' && interface_api !== '' && interface_status !== '') {
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "{% url 'apitest:interface_edit'%}",
+                    data: {
+                        'interface_id': interface_id,
+                        'interface_name': interface_name,
+                        'interface_describe': interface_describe,
+                        'interface_module': interface_module,
+                        'interface_api': interface_api,
+                        'interface_status': interface_status
+                    },
+                    async: true,
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success: function (data) {
+                        if (data.status == 'success') {
+                            window.location.href = "{% url 'apitest:interface_list' %}";
+                        }
+
+                    },
+                });
+
+            }
+        }
+    </script>
+    <script>
+        //传入删除模态框单个接口的id值
+        function delitem(obj) {
+            var tr = $(obj).parent().parent();
+            var interface_id = tr.children("td#interface_id").text();
+            $('#del_interface_id').text(interface_id);
+
+
+        };
+    </script>
+    <script>
+        //利用Ajax发送请求到后端，删除接口
+        function interface_delete(obj) {
+            var sr = $(obj).parent().prev();
+            var interface_id = sr.find("span#del_interface_id").text();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "{% url 'apitest:interface_delete'%}",
+                data: {'interface_id': interface_id},
+                async: true,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function (data) {
+                    if (data.status == 'success') {
+                        window.location.href = "{% url 'apitest:interface_list' %}";
+                    }
+
+                },
+            });
+        }
+    </script>
+    <script>
+        //新建页面根据项目名去获取模块名
+        function get_module_name(obj) {
+            var project_name = $(obj).val();
+            $.get("/apitest/get_modules_name/", {"project_name": project_name}, function (resp) {
+                if (resp.status == 10200) {
+                    $("#add_interface_module").empty();
+                    var datalist = resp.data;
+                    for (var i = 0; i < datalist.length; i++) {
+                        $("#add_interface_module").append('<option >' + datalist[i] + '</option>');
+                    }
+                } else {
+                    window.alert(resp.message)
+                }
+
+            });
+
+        }
+    </script>
+    <script>
+        function get_module_name1(obj) {
+            //编辑页面根据项目名去获取模块名
+            var project_name = $(obj).val();
+            $.get("/apitest/get_modules_name/", {"project_name": project_name}, function (resp) {
+                if (resp.status == 10200) {
+                    $("#edit_interface_module").empty();
+                    var datalist = resp.data;
+                    for (var i = 0; i < datalist.length; i++) {
+                        $("#edit_interface_module").append('<option >' + datalist[i] + '</option>');
+                    }
+                } else {
+                    window.alert(resp.message)
+                }
+
+            });
+
+        }
+    </script>
+
+
+
+
+    <script>
+        //实现列表全选功能
+        $(function () {
+            function initTableCheckbox() {
+                var $thr = $('table thead tr');
+                var $checkAllTh = $('<th width="80"><input style="position:relative;top:2px;" type="checkbox" id="checkAll" name="checkAll"/>&nbsp;全选</th>');
+                /*将全选/反选复选框添加到表头最前，即增加一列*/
+                $thr.prepend($checkAllTh);
+                /*“全选/反选”复选框*/
+                var $checkAll = $thr.find('input');
+                $checkAll.click(function (event) {
+                    /*将所有行的选中状态设成全选框的选中状态*/
+                    $tbr.find('input').prop('checked', $(this).prop('checked'));
+                    /*并调整所有选中行的CSS样式*/
+                    if ($(this).prop('checked')) {
+                        $tbr.find('input').parent().parent().addClass('warning');
+                    } else {
+                        $tbr.find('input').parent().parent().removeClass('warning');
+                    }
+                    /*阻止向上冒泡，以防再次触发点击操作*/
+                    event.stopPropagation();
+                });
+                /*点击全选框所在单元格时也触发全选框的点击操作*/
+                $checkAllTh.click(function () {
+                    $(this).find('input').click();
+                });
+                var $tbr = $('table tbody tr');
+                var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /></td>');
+                /*每一行都在最前面插入一个选中复选框的单元格*/
+                $tbr.prepend($checkItemTd);
+                /*点击每一行的选中复选框时*/
+                $tbr.find('input').click(function (event) {
+                    /*调整选中行的CSS样式*/
+                    $(this).parent().parent().toggleClass('warning');
+                    /*如果已经被选中行的行数等于表格的数据行数，将全选框设为选中状态，否则设为未选中状态*/
+                    $checkAll.prop('checked', $tbr.find('input:checked').length == $tbr.length ? true : false);
+                    /*阻止向上冒泡，以防再次触发点击操作*/
+                    event.stopPropagation();
+                });
+                /*点击每一行时也触发该行的选中操作*/
+                /*$tbr.click(function () {
+                    $(this).find('input').click();
+                });*/
+            }
+
+            initTableCheckbox();
+        });
+    </script>
+{% endblock %}
+

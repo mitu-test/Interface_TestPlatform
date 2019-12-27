@@ -1,0 +1,100 @@
+.toggle-switch {
+  display: inline-block;
+  vertical-align: top;
+  user-select: none;
+
+  .ts-label {
+    display: inline-block;
+    margin: 0 20px 0 0;
+    vertical-align: top;
+    -webkit-transition: color 0.56s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 0.56s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ts-helper {
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    height: 16px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.10);
+    -webkit-transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    vertical-align: middle;
+    cursor: pointer;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      width: 24px;
+      height: 24px;
+      background: #fafafa;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+      border-radius: 50%;
+      webkit-transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  &:not(.disabled) {
+    .ts-helper {
+      &:active {
+        &:before {
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 0 0 20px rgba(128, 128, 128, 0.1);
+        }
+      }
+    }
+  }
+
+  input {
+    position: absolute;
+    z-index: 1;
+    width: 46px;
+    margin: 0 0 0 -4px;
+    height: 24px;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked {
+      & + .ts-helper {
+        &:before {
+          left: 20px;
+        }
+      }
+    }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+  }
+
+  &[data-ts-color="primary"] {
+    @include ts-color(theme-color("primary"));
+  }
+
+  &[data-ts-color="secondary"] {
+    @include ts-color(theme-color("secondary"));
+  }
+
+  &[data-ts-color="success"] {
+    @include ts-color(theme-color("success"));
+  }
+
+  &[data-ts-color="info"] {
+    @include ts-color(theme-color("info"));
+  }
+
+  &[data-ts-color="info"] {
+    @include ts-color(theme-color("info"));
+  }
+
+  &[data-ts-color="warning"] {
+    @include ts-color(theme-color("warning"));
+  }
+
+  &[data-ts-color="danger"] {
+    @include ts-color(theme-color("danger"));
+  }
+}

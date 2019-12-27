@@ -1,0 +1,16 @@
+@each $color, $value in $theme-colors {
+  .alert-#{$color} {
+    @include alert-variant(lighten($value, 4%), $value, lighten($value, 50%));
+  }
+}
+
+.alert {
+  .close {
+    font-size: 15px;
+    padding: 1rem;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/dist/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/static/dist/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/static/dist/css/styles.css">
+    {% block css %}{% endblock %}
+</head>
+<body class="sidebar-fixed header-fixed">
+<div class="page-wrapper">
+    <nav class="navbar page-header">
+        <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <a class="navbar-brand" href="#">
+            接口测试平台
+        </a>
+
+        <a href="#" class="btn btn-link sidebar-toggle d-md-down-none">
+            <i class="fa fa-bars"></i>
+        </a>
+
+        <ul class="navbar-nav ml-auto">
+            <!--<li class="nav-item d-md-down-none">
+                <a href="#">
+                    <i class="fa fa-bell"></i>
+                    <span class="badge badge-pill badge-danger">5</span>
+                </a>
+            </li>-->
+
+            <!--<li class="nav-item d-md-down-none">
+                <a href="#">
+                    <i class="fa fa-envelope-open"></i>
+                    <span class="badge badge-pill badge-danger">5</span>
+                </a>
+            </li>-->
+            {% if user.is_authenticated %}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                       aria-haspopup="true"
+                       aria-expanded="false">
+                        <img src="/static/dist/imgs/avatar-1.png" class="avatar avatar-sm" alt="logo">
+                        <span class="small ml-1 d-md-down-none">{{ user.username }}</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-5">
+                            <i class="fa fa-wrench"></i> 重置密码
+                        </a>
+
+                        <a href="{% url "users:logout" %}" class="dropdown-item">
+                            <i class="fa fa-lock"></i> 退出
+                        </a>
+                    </div>
+                </li>
+                {% else %}
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    <li class="nav-title">平台管理</li>
+
+                    <li class="nav-item">
+                        <a href="{% url "projects:project_list" %}" class="nav-link">
+                            <i class="icon icon-speedometer"></i> 项目管理
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{% url "projects:module_list" %}" class="nav-link">
+                            <i class="icon icon-target"></i> 模块管理
+                        </a>
+                    </li>
+
+                    <!--<li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-target"></i> 模块管理 <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="layouts-normal.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Normal
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="layouts-fixed-sidebar.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Fixed Sidebar
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="layouts-fixed-header.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Fixed Header
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="layouts-hidden-sidebar.html" class="nav-link">
+                                    <i class="icon icon-target"></i> Hidden Sidebar
+                                </a>
+                            </li>
+                        </ul>
+                    </li>-->
+
+
+                    <li class="nav-item">
+                        <a href="{% url "apitest:case_list" %}" class="nav-link ">
+                            <i class="icon icon-energy"></i> 用例管理
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{% url "apitest:task_list" %}" class="nav-link">
+                            <i class="icon icon-graph"></i> 任务管理
+                        </a>
+
+                    </li>
+
+{#                    <li class="nav-item">#}
+{#                        <a href="forms.html" class="nav-link">#}
+{#                            <i class="icon icon-puzzle"></i> 测试报告#}
+{#                        </a>#}
+{#                    </li>#}
+{##}
+{#                    <li class="nav-item">#}
+{#                        <a href="tables.html" class="nav-link">#}
+{#                            <i class="icon icon-grid"></i> Mock Server#}
+{#                        </a>#}
+{#                    </li>#}
+{##}
+                    <li class="nav-title">测试工具</li>
+
+                    <li class="nav-item nav-dropdown">
+                        <a href="#" class="nav-link nav-dropdown-toggle">
+                            <i class="icon icon-umbrella"></i> Pages <i class="fa fa-caret-left"></i>
+                        </a>
+
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a href="blank.html" class="nav-link">
+                                    <i class="icon icon-umbrella"></i> Blank Page
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="login.html" class="nav-link">
+                                    <i class="icon icon-umbrella"></i> Login
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="register.html" class="nav-link">
+                                    <i class="icon icon-umbrella"></i> Register
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="invoice.html" class="nav-link">
+                                    <i class="icon icon-umbrella"></i> Invoice
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="404.html" class="nav-link">
+                                    <i class="icon icon-umbrella"></i> 404
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="500.html" class="nav-link">
+                                    <i class="icon icon-umbrella"></i> 500
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="settings.html" class="nav-link">
+                                    <i class="icon icon-umbrella"></i> Settings
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="modal fade" id="modal-5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 90%">
+                    <div class="modal-header">
+                        <h5 class="modal-title">重置密码</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{% url 'users:reset_password1' %}" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body p-4">
+
+                            <div class="form-group">
+                                <label class="form-control-label">用户名</label>
+                                <input type="name" class="form-control" name="username">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-control-label">新密码</label>
+                                <input type="password" class="form-control" name="password1">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-control-label">确认新密码</label>
+                                <input type="password" class="form-control" name="password2">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-control-label">验证码</label>
+                                <img src="{{ image_url }}" alt="captcha"
+                                     class="captcha">
+                                <input type="hidden" name="captcha_0" value="{{ hashkey }}"
+                                       required="" id="id_captcha_0">
+                                <input type="text" name="captcha_1" required="True" id="id_captcha_1"
+                                       autocapitalize="off"
+                                       autocomplete="off" autocorrect="off" spellcheck="false" class="form-control">
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn btn-link btn-rounded btn-secondary" data-dismiss="modal">
+                                取消
+                            </button>
+                            <button type="submit" class="btn btn-rounded btn-secondary">提交</button>
+                        </div>
+                     </form>
+                </div>
+            </div>
+        </div>
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+<script src="/static/dist/vendor/jquery/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="/static/dist/vendor/popper.js/popper.min.js"></script>
+<script src="/static/dist/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/dist/vendor/chart.js/chart.min.js"></script>
+<script src="/static/dist/js/carbon.js"></script>
+<script src="/static/dist/js/demo.js"></script>
+<script>
+     $(function() {
+        $(".captcha").click(function () {
+          $.getJSON("{% url 'users:reset_password1' %}",function(result){
+            $('.captcha').attr('src', result.image_url);
+            $('#id_captcha_0').val(result.key);
+          });
+      });
+      });
+</script>
+{% block custom_js %}{% endblock %}
+</body>
+</html>

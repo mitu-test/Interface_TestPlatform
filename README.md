@@ -53,8 +53,6 @@ python manage.py runserver 127.0.0.1:8000
 ```
 9.访问127.0.0.1:8000进入接口测试平台主页面
 -------
-9.访问127.0.0.1:8000进入接口测试平台主页面
--------
 项目管理：（支持项目的增删改查）
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/project.png)
 模块管理：（支持模块的增删改查）

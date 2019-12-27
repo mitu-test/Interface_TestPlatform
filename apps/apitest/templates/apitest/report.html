@@ -94,7 +94,7 @@
         </ul>
 
         <!-- report name -->
-         <span class='report-name'>Api Test Report: 2019-12-26 17:01:06</span>
+         <span class='report-name'>Api Test Report: 2019-12-27 14:31:18</span>
 
         <!-- report headline -->
         <span class='report-headline'></span>
@@ -103,12 +103,12 @@
         <ul id='nav-mobile' class='right hide-on-med-and-down nav-right'>
             <li>
                 <a href='#!'>
-                    <span class='label suite-start-time blue darken-3'>Start_time: 2019-12-26 17:01:06</span>
+                    <span class='label suite-start-time blue darken-3'>Start_time: 2019-12-27 14:31:18</span>
                 </a>
             </li>
             <li>
                 <a href='#!'>
-                    <span class='label blue darken-3'>Duration: 0:00:00.013125 </span>
+                    <span class='label blue darken-3'>Duration: 0:00:00.676607 </span>
                 </a>
             </li>
         </ul>
@@ -183,13 +183,13 @@
                             <div class='block text-small'>
                             
                             <span class='tooltipped' data-position='top' style="font-weight: bold;font-size:15px;color:#F7464A"><span
-                                    class='strong'>0</span> test(s) Failed</span>
+                                    class='strong'>1</span> test(s) Failed</span>
                             
                             </div>
                             <div class='block text-small'>
                 
                             <span class='tooltipped' data-position='top' style="font-weight: bold;font-size:15px;color:#ff6347"><span 
-                                    class='strong'>1</span> test(s) Errored</span>
+                                    class='strong'>0</span> test(s) Errored</span>
                             </div>
                             
                 
@@ -208,25 +208,25 @@
                 <h5>Cases</h5>
                 <ul id='test-collection' class='test-collection'>
                 
-    <li class="test displayed active has-leaf error" status="error" bdd="error" test-id="InterfaceTest_1">
+    <li class="test displayed active has-leaf fail" status="fail" bdd="false" test-id="InterfaceTest_1">
     <div class='test-heading'>
         <span class='test-name'>{{ case.name }}</span>
         <span class='test-time'>desc: {{ case.describe }} </span>
-        <span class="test-status right error">error</span>
+        <span class="test-status right fail">fail</span>
     </div>
     <div class='test-content hide'>
         <div class='test-desc'>Passed: 0 ;
-                                Failed: 0 ;
-                                Errored: 1 ;
+                                Failed: 1 ;
+                                Errored: 0 ;
         </div>
         
         <ul class='collapsible node-list' data-collapsible='accordion'>
             
-            <li class="node level-1 leaf error" status="error" test-id="test_run_cases_00001_根据号码查询归属地: test_run_cases_00001_根据号码查询归属地_ft1.1_1">
+            <li class="node level-1 leaf fail" status="fail" test-id="test_run_cases_00001_根据号码查询归属地: test_run_cases_00001_根据号码查询归属地_ft1.1_1">
             <div class='collapsible-header'>
                 <div class='node-name'>test_run_cases_00001_根据号码查询归属地</div>
                 <span class='node-time'>desc: test_run_cases_00001_根据号码查询归属地</span>
-                <span class="test-status right error">error</span>
+                <span class="test-status right fail">fail</span>
             </div>
             <div class='collapsible-body'>
                 <div class='category-list right'>
@@ -248,7 +248,7 @@
                     class='material-icons'>low_priority</i></td>
             <td class='timestamp'>stdo</td>
             <td style="white-space:pre-wrap;word-break:break-all">
-0: Traceback (most recent call last):<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\urllib3\connection.py", line 160, in _new_conn<br />    (self._dns_host, self.port), self.timeout, **extra_kw)<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\urllib3\util\connection.py", line 57, in create_connection<br />    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\socket.py", line 743, in getaddrinfo<br />    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):<br />socket.gaierror: [Errno 11001] getaddrinfo failed<br /><br />During handling of the above exception, another exception occurred:<br /><br />Traceback (most recent call last):<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\urllib3\connectionpool.py", line 603, in urlopen<br />    chunked=chunked)<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\urllib3\connectionpool.py", line 344, in _make_request<br />    self._validate_conn(conn)<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\urllib3\connectionpool.py", line 843, in _validate_conn<br />    conn.connect()<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\urllib3\connection.py", line 316, in connect<br />    conn = self._new_conn()<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\urllib3\connection.py", line 169, in _new_conn<br />    self, "Failed to establish a new connection: %s" % e)<br />urllib3.exceptions.NewConnectionError: <urllib3.connection.VerifiedHTTPSConnection object at 0x000001820C620D68>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed<br /><br />During handling of the above exception, another exception occurred:<br /><br />Traceback (most recent call last):<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\requests\adapters.py", line 449, in send<br />    timeout=timeout<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\urllib3\connectionpool.py", line 641, in urlopen<br />    _stacktrace=sys.exc_info()[2])<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\urllib3\util\retry.py", line 399, in increment<br />    raise MaxRetryError(_pool, url, error or ResponseError(cause))<br />urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='tcc.taobao.com', port=443): Max retries exceeded with url: /cc/json/mobile_tel_segment.htm?tel=17764591649 (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x000001820C620D68>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed',))<br /><br />During handling of the above exception, another exception occurred:<br /><br />Traceback (most recent call last):<br />  File "C:\Users\guo\Envs\autotestplat\Lib\site-packages\ddt.py", line 147, in wrapper<br />    return func(self, *args, **kwargs)<br />  File "E:/Interface_TestPlatform/apps/apitest/run_task.py", line 35, in test_run_cases<br />    r = requests.get(url, headers=header_dict, params=parameter_dict)<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\requests\api.py", line 75, in get<br />    return request('get', url, params=params, **kwargs)<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\requests\api.py", line 60, in request<br />    return session.request(method=method, url=url, **kwargs)<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\requests\sessions.py", line 533, in request<br />    resp = self.send(prep, **send_kwargs)<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\requests\sessions.py", line 646, in send<br />    r = adapter.send(request, **kwargs)<br />  File "C:\Users\guo\AppData\Local\Programs\Python\Python36\lib\site-packages\requests\adapters.py", line 516, in send<br />    raise ConnectionError(e, request=request)<br />requests.exceptions.ConnectionError: HTTPSConnectionPool(host='tcc.taobao.com', port=443): Max retries exceeded with url: /cc/json/mobile_tel_segment.htm?tel=17764591649 (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x000001820C620D68>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed',))<br />
+0: Traceback (most recent call last):<br />  File "C:\Users\guo\Envs\autotestplat\Lib\site-packages\ddt.py", line 147, in wrapper<br />    return func(self, *args, **kwargs)<br />  File "E:/Interface_TestPlatform/apps/apitest/run_task.py", line 37, in test_run_cases<br />    self.assertIn(assert_body, r.text)<br />AssertionError: '江西' not found in "__GetZoneResult_ = {\n    mts:'1776459',\n    province:'浙江',\n    catName:'中国电信',\n    telString:'17764591649',\n\tareaVid:'30510',\n\tispVid:'138238560',\n\tcarrier:'浙江电信'\n}\n"<br />
 </td>
         </tr>
         
@@ -323,14 +323,14 @@
                             <span class='category-name'>All Suites</span>
                             <span class='category-status right'>
                                 <span class='label pass'>0 </span>
-                                <span class='label fail'>0</span>
+                                <span class='label fail'>1</span>
                             </span>
                         </div>
                         <div class='category-content hide'>
                             <div class='category-status-counts'>
                                 <span class='label green accent-4 white-text'>Passed: 0</span>
-                                <span class='label red lighten-1 white-text'>Failed: 0</span>
-                                <span class='label blue lighten-1 white-text'>Errored: 1</span>
+                                <span class='label red lighten-1 white-text'>Failed: 1</span>
+                                <span class='label blue lighten-1 white-text'>Errored: 0</span>
                                 <span class="label yellow darken-2 white-text">Skipped: </span>
                             </div>
 
@@ -344,13 +344,13 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    ['\n    <tr style="border: 1px solid #49cc90; background-color: rgba(73, 204, 144, .1)">\n        <td>2019-12-26 17:01:06.737625</td>\n        <td class=\'linked\' test-id=\'InterfaceTest_0\'>InterfaceTest</td>\n        <td><span class="test-status error">error</span></td>\n    </tr>\n    <tr>\n        <td></td>\n        <td class=\'linked\' test-id=\'暂未处理\'></td>\n        <td><span class="test-status error">error</span></td>\n    </tr>\n        \n    ']
+                                    ['\n    <tr style="border: 1px solid #49cc90; background-color: rgba(73, 204, 144, .1)">\n        <td>2019-12-27 14:31:18.524087</td>\n        <td class=\'linked\' test-id=\'InterfaceTest_0\'>InterfaceTest</td>\n        <td><span class="test-status fail">fail</span></td>\n    </tr>\n    <tr>\n        <td></td>\n        <td class=\'linked\' test-id=\'暂未处理\'></td>\n        <td><span class="test-status fail">fail</span></td>\n    </tr>\n        \n    ']
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </li>
-                    ["\n    <li class='category displayed active'>\n        <div class='category-heading'>\n            <span class='category-name'>InterfaceTest</span>\n            <span class='category-status right'>\n                <span class='label pass'>0 </span>\n                <span class='label fail'>0</span>\n            </span>\n        </div>\n        <div class='category-content hide'>\n            <div class='category-status-counts'>\n                <span class='label green accent-4 white-text'>Passed: 0</span>\n                <span class='label red lighten-1 white-text'>Failed: 0</span>\n                <span class='label blue lighten-1 white-text'>Errored: 1</span>\n            </div>\n\n            <div class='category-tests'>\n                <table class='bordered table-results'>\n                    <thead>\n                    <tr>\n                        <th>Timestamp</th>\n                        <th>TestName</th>\n                        <th>Status</th>\n                    </tr>\n                    </thead>\n                    <tbody>\n                    \n                    </tbody>\n                </table>\n            </div>\n        </div>\n    </li>\n    "]
+                    ["\n    <li class='category displayed active'>\n        <div class='category-heading'>\n            <span class='category-name'>InterfaceTest</span>\n            <span class='category-status right'>\n                <span class='label pass'>0 </span>\n                <span class='label fail'>1</span>\n            </span>\n        </div>\n        <div class='category-content hide'>\n            <div class='category-status-counts'>\n                <span class='label green accent-4 white-text'>Passed: 0</span>\n                <span class='label red lighten-1 white-text'>Failed: 1</span>\n                <span class='label blue lighten-1 white-text'>Errored: 0</span>\n            </div>\n\n            <div class='category-tests'>\n                <table class='bordered table-results'>\n                    <thead>\n                    <tr>\n                        <th>Timestamp</th>\n                        <th>TestName</th>\n                        <th>Status</th>\n                    </tr>\n                    </thead>\n                    <tbody>\n                    \n                    </tbody>\n                </table>\n            </div>\n        </div>\n    </li>\n    "]
                 <div class='subview-right left'>
             <div class='view-summary'>
                 <h5 class='category-name'></h5>
@@ -377,13 +377,13 @@
                 <div class='col s2'>
                     <div class='card-panel r'>
                         Fail
-                        <div class='panel-lead'>0</div>
+                        <div class='panel-lead'>1</div>
                     </div>
                 </div>
                 <div class='col s2'>
                     <div class='card-panel r'>
                         Error
-                        <div class='panel-lead'>1</div>
+                        <div class='panel-lead'>0</div>
                     </div>
                 </div>
                 <div class='col s2'>
@@ -395,13 +395,13 @@
                 <div class='col s2'>
                     <div class='card-panel r'>
                         Start
-                        <div class='panel-lead'>2019-12-26 17:01:06</div>
+                        <div class='panel-lead'>2019-12-27 14:31:18</div>
                     </div>
                 </div>
                 <div class='col s2'>
                     <div class='card-panel r'>
                         Time Taken
-                        <div class='panel-lead'>0:00:00.013125 seconds</div>
+                        <div class='panel-lead'>0:00:00.676607 seconds</div>
                     </div>
                 </div>
                 <div class='col s4'>
@@ -419,8 +419,8 @@
                             <tr>
                                 <td>All Suites</td>
                                 <td class="pass">0</td>
-                                <td class="fail">0</td>
-                                <td class="error">1</td>
+                                <td class="fail">1</td>
+                                <td class="error">0</td>
                                 <td class="skip"></td>
                             </tr>
 
@@ -448,15 +448,15 @@
     
         var statusGroup = {
             passParent: 0,
-            failParent: 0,
+            failParent: 1,
             fatalParent: 0,
-            errorParent: 1,
+            errorParent: 0,
             warningParent: 0,
             skipParent: 0,
             exceptionsParent: 0,
     
             passChild: test_suite_success,
-            failChild: 0,
+            failChild: 1,
             fatalChild: 0,
             errorChild: 0,
             warningChild: 0,

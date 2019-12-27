@@ -18,7 +18,7 @@ def index(request):
     """
     平台主页
     """
-    return render(request, "index.html")
+    return redirect('projects/list/')
 
 
 def user_login(request):

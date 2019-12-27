@@ -1,6 +1,4 @@
-# Interface_TestPlatform
-接口自动化测试平台
-Mxonline
+Interface_TestPlatform
 -------
 项目简介：
 -------

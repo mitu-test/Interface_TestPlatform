@@ -64,6 +64,5 @@ python manage.py runserver 127.0.0.1:8000
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/case_run.png)
 任务管理：（支持任务的增删改查，以及任务执行，生成Html报告，一个任务包含多个测试用例）
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/task.png)
-![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/task.png)
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/task_add.png)
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/task_run.png)

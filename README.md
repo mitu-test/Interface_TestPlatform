@@ -65,21 +65,27 @@ python manage.py runserver 127.0.0.1:8001
 
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/case.png)
 
+用例新增1：
 
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/case_add1.png)
 
+用例新增2：
 
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/case_add2.png)
 
+单个用例运行，生成HTML报告：
 
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/case_run.png)
 
-任务管理：（支持任务的增删改查，以及任务执行，生成HTML报告，PS:一个任务包含多个测试用例）
+
+任务管理：（支持任务的增删改查，以及任务执行，生成HTML报告）
 
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/task.png)
 
+任务新增：（PS:一个任务包含多个测试用例）
 
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/task_add.png)
 
+任务运行，生成HTML报告：
 
 ![](https://github.com/PyGuojun/Interface_TestPlatform/blob/master/image/task_run.png)
